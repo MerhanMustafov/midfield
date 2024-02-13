@@ -1,0 +1,20 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // spacing and indentation configurations
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.indentSize": "tabSize",
+  "editor.tabSize": 2,
+
+  // prettier VsCode configurations
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.trailingComma": "none",
+  "prettier.printWidth": 100,
+  "prettier.tabWidth": 2,
+
+  // Code Spell Checker plugin configurations
+  "cSpell.ignoreWords": ["Merhan", "Mustafov", "apisports", "trivago"]
+}
