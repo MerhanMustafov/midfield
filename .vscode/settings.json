@@ -8,7 +8,8 @@
   "editor.indentSize": "tabSize",
   "editor.tabSize": 2,
 
-  // prettier VsCode configurations
+  // prettier VsCode fallback settings (if there is no prettier config file this settings will be used)
+  // if you have a prettier config file, these settings will be ignored completely and the settings in the config file will be used
   "prettier.tabWidth": 2,
   "prettier.printWidth": 100,
   "prettier.semi": true,
@@ -30,5 +31,6 @@
 
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "files.eol": "\n"
 }
