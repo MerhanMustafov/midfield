@@ -26,5 +26,9 @@
 
   // Tailwind CSS IntelliSense plugin configurations
   "tailwindCSS.hovers": true,
-  "tailwindCSS.colorDecorators": true
+  "tailwindCSS.colorDecorators": true,
+
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
