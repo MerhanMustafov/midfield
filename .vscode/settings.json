@@ -22,7 +22,7 @@
   // Code Spell Checker plugin configurations
   "cSpell.globRoot": "${workspaceFolder}",
   "cSpell.ignorePaths": ["*", "!client/src", "!backend/src"],
-  "cSpell.ignoreWords": ["Merhan", "Mustafov", "apisports", "trivago"],
+  "cSpell.ignoreWords": ["apisports"],
 
   // Tailwind CSS IntelliSense plugin configurations
   "tailwindCSS.hovers": true,
