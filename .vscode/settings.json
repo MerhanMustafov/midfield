@@ -2,7 +2,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
 
-  // spacing and indentation configurations
+  // spacing and indentation settings
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
   "editor.indentSize": "tabSize",
@@ -20,12 +20,12 @@
   "prettier.trailingComma": "all",
   "prettier.arrowParens": "always",
 
-  // Code Spell Checker plugin configurations
+  // Code Spell Checker plugin settings
   "cSpell.globRoot": "${workspaceFolder}",
   "cSpell.ignorePaths": ["*", "!client/src", "!backend/src"],
   "cSpell.ignoreWords": ["apisports"],
 
-  // Tailwind CSS IntelliSense plugin configurations
+  // Tailwind CSS IntelliSense plugin settings
   "tailwindCSS.hovers": true,
   "tailwindCSS.colorDecorators": true,
 
