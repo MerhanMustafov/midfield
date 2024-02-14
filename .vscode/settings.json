@@ -9,12 +9,22 @@
   "editor.tabSize": 2,
 
   // prettier VsCode configurations
-  "prettier.singleQuote": true,
-  "prettier.semi": true,
-  "prettier.trailingComma": "none",
-  "prettier.printWidth": 100,
   "prettier.tabWidth": 2,
+  "prettier.printWidth": 100,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.bracketSpacing": true,
+  "prettier.bracketSameLine": false,
+  "prettier.endOfLine": "lf",
+  "prettier.trailingComma": "all",
+  "prettier.arrowParens": "always",
 
   // Code Spell Checker plugin configurations
-  "cSpell.ignoreWords": ["Merhan", "Mustafov", "apisports", "trivago"]
+  "cSpell.globRoot": "${workspaceFolder}",
+  "cSpell.ignorePaths": ["*", "!client/src", "!backend/src"],
+  "cSpell.ignoreWords": ["Merhan", "Mustafov", "apisports", "trivago"],
+
+  // Tailwind CSS IntelliSense plugin configurations
+  "tailwindCSS.hovers": true,
+  "tailwindCSS.colorDecorators": true
 }
