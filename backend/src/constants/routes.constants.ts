@@ -4,7 +4,7 @@
 export const ENDPOINT_API_ROOT = '/api';
 
 // // countries
-export const ENDPOINT_COUNTRIES = '/countries';
+export const ENDPOINT_LEAGUES = '/leagues';
 
 // // leagues
 // export const ENDPOINT_LEAGUES_BY_COUNTRY_NAME = '/leagues/:countryName';
