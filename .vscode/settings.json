@@ -11,7 +11,7 @@
   // prettier VsCode fallback settings (if there is no prettier config file this settings will be used)
   // if you have a prettier config file, these settings will be ignored completely and the settings in the config file will be used
   "prettier.tabWidth": 2,
-  "prettier.printWidth": 100,
+  "prettier.printWidth": 120,
   "prettier.semi": true,
   "prettier.singleQuote": true,
   "prettier.bracketSpacing": true,
@@ -29,8 +29,7 @@
   "tailwindCSS.hovers": true,
   "tailwindCSS.colorDecorators": true,
 
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "css.lint.unknownAtRules": "ignore",
+  "vscode-color-picker.languages": ["javascript", "typescript"]
 }
