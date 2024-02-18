@@ -18,8 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        {children}
+        <div className="grid min-h-svh max-w-full grid-rows-[max-content,1fr,max-content]">
+          <header>
+            <Navigation />
+          </header>
+          <main className="mx-auto w-full max-w-screen-xl">{children}</main>
+          <footer className="text-black">Copyrights</footer>
+        </div>
       </body>
     </html>
   );
