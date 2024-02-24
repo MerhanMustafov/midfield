@@ -1,26 +1,99 @@
 import { customAxios } from '@configs/axios.configs';
 import { Request, Response } from 'express';
+import sortCountriesOrder from '@constants/sort/sortCountriesOrder.constants';
+import sortLeaguesOrder from '@constants/sort/sortLeaguesOrder.constants';
+import { customStringComparator } from '@utils/sort.utils';
 
-interface CountriesResponseTypes {
-  data: {
-    response: {
-      name: string;
-      code: string;
-      flag: string;
-    }[];
-    results: number;
+type ByLeagueKey = {
+  [LeagueName: string]: {
+    leagueId: number;
+    leagueName: string;
+    leagueLogo: string;
   };
-}
+};
+type ByCountryKey = {
+  [CountryName: string]: {
+    countryName: string;
+    countryFlag: string;
+    countryCode: string;
+    leagues: ByLeagueKey;
+  };
+};
+type League = {
+  league: {
+    id: 39; //ex: 39
+    name: string; // ex: 'Premier League'
+    type: string; // ex: 'League'
+    logo: string; // ex: 'https://media.api-sports.io/football/leagues/2.png'
+  };
+  country: {
+    name: string; // ex: 'England'
+    code: string; //  ex: 'GB'
+    flag: string; // ex: 'https://media.api-sports.io/flags/gb.svg'
+  };
 
-export async function getCountries(req: Request, res: Response) {
+  // TODO: Add more properties for season... IF needed
+};
+
+type LeaguesResponseTypes<T> = {
+  response: T;
+};
+
+export async function getCountriesWithLeaguesData(req: Request, res: Response) {
   try {
-    const response: CountriesResponseTypes = await customAxios.get('/countries');
+    const response = await customAxios.get('/leagues');
+    const status = response.status;
+    const responseData = response.data as LeaguesResponseTypes<League[]>;
 
-    // const data = response.data.response.sort((a, b) => sortByCountryName(a.name, b.name));
-    // const numberOfCountries = response.data.results;
+    const modifiedDataStructure = responseData.response.reduce((acc, curr) => {
+      const country = curr.country.name;
+      const league = curr.league.name;
 
-    // const returnData = { data, numberOfCountries };
-    return res.json(response.data);
+      const leaguesData = {} as ByLeagueKey;
+      leaguesData[league] = {
+        leagueId: curr.league.id,
+        leagueName: curr.league.name,
+        leagueLogo: curr.league.logo,
+      };
+
+      const countriesData = {} as ByCountryKey;
+      countriesData[country] = {
+        countryName: country,
+        countryFlag: curr.country.flag,
+        countryCode: curr.country.code,
+        leagues: { ...acc[country]?.leagues, ...leaguesData } || leaguesData,
+      };
+
+      return { ...acc, ...countriesData };
+    }, {} as ByCountryKey);
+
+    const sortedData = Object.keys(modifiedDataStructure)
+      .sort((a: string, b: string) =>
+        customStringComparator(a, b, { customArr: sortCountriesOrder }),
+      )
+      .reduce((countryAcc, countryCurr) => {
+        const leagues = Object.keys(modifiedDataStructure[countryCurr].leagues)
+          .sort((a: string, b: string) =>
+            customStringComparator(a, b, {
+              customArr: sortLeaguesOrder,
+            }),
+          )
+          .reduce((leaguesAcc, leaguesCurr) => {
+            leaguesAcc[leaguesCurr] = modifiedDataStructure[countryCurr].leagues[leaguesCurr];
+            return leaguesAcc;
+          }, {} as ByLeagueKey);
+
+        countryAcc[countryCurr] = modifiedDataStructure[countryCurr];
+        countryAcc[countryCurr].leagues = leagues;
+
+        return countryAcc;
+      }, {} as ByCountryKey);
+
+    if (status !== 200) {
+      throw new Error('Error has occurred while fetching leagues data from the API !');
+    }
+
+    return res.json(sortedData);
   } catch {
     return res.json({ error: 'Something went wrong' });
   }
