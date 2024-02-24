@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="grid  min-h-svh max-w-full grid-rows-[max-content,1fr,max-content]">
+        <div className="grid min-h-svh max-w-full grid-rows-[max-content,1fr,max-content] gap-6">
           <header>
             <Navigation />
           </header>
