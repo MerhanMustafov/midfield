@@ -11,7 +11,9 @@ type CountriesAndLeaguesClientProps = {
 };
 const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (props) => {
   const wrapperElement = React.useRef<HTMLDivElement>(null);
+  const [filteredData, setFilteredData] = React.useState<CountryDataType>(props.countriesAndLeaguesData);
   const [selectedCountry, setSelectedCountry] = React.useState<keyof typeof props.countriesAndLeaguesData | null>(null);
+  const [searchInput, setSearchInput] = React.useState<string>('');
 
   useEffect(() => {
     if (wrapperElement.current) {
@@ -19,20 +21,40 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
     }
   }, [selectedCountry]);
 
+  useEffect(() => {
+    const timeOutID = setTimeout(() => {
+      const filtered = Object.entries(props.countriesAndLeaguesData).reduce((acc, [key, value]) => {
+        if (key.toLowerCase().includes(searchInput.toLowerCase())) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {} as CountryDataType);
+      setFilteredData(filtered);
+    }, 700);
+
+    return () => clearTimeout(timeOutID);
+  }, [searchInput, props.countriesAndLeaguesData]);
+
   const handleCountryClick = (country: keyof typeof props.countriesAndLeaguesData) => {
     setSelectedCountry(country);
+    setSearchInput('');
   };
 
   const handleBackClick = () => {
     setSelectedCountry(null);
   };
+
   return (
     <div ref={wrapperElement} className="min-h-[600px] w-[160px] gap-1">
       <div className=" flex min-h-[50px] items-center border-b-[1px] border-black">
-        {selectedCountry ? <BackButton clickHandler={handleBackClick} /> : <SearchInput />}
+        {selectedCountry ? (
+          <BackButton clickHandler={handleBackClick} />
+        ) : (
+          <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} />
+        )}
       </div>
       {!selectedCountry &&
-        Object.values(props.countriesAndLeaguesData).map((data) => {
+        Object.values(filteredData).map((data) => {
           const key = JSON.stringify(data);
           return (
             <Country
@@ -44,7 +66,7 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
           );
         })}
       {selectedCountry &&
-        Object.values(props.countriesAndLeaguesData[selectedCountry].leagues).map((data) => {
+        Object.values(filteredData[selectedCountry].leagues).map((data) => {
           const key = data.leagueId;
           return <League key={key} leagueName={data.leagueName} leagueId={data.leagueId} />;
         })}
