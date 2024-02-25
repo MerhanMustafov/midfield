@@ -1,7 +1,9 @@
+import CountriesAndLeagues from '@/components/CountriesAndLeagues';
+
 export default function Home() {
   return (
-    <div>
-      <div>Home </div>
+    <div className="min-h-full">
+      <CountriesAndLeagues />
     </div>
   );
 }
