@@ -15,6 +15,9 @@ const config: Config = {
       colors: {
         'black-perl': '#001e28',
       },
+      boxShadow: {
+        searchInput: '#1183d6 0px 0px 7px -1px',
+      },
     },
   },
   plugins: [],

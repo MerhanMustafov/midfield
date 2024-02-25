@@ -31,5 +31,9 @@
 
   "files.eol": "\n",
   "css.lint.unknownAtRules": "ignore",
-  "vscode-color-picker.languages": ["javascript", "typescript"]
+  "vscode-color-picker.languages": ["javascript", "typescript"],
+  "material-icon-theme.folders.associations": {
+    "sections": "components"
+    // "sections": "../../../icons/icons8-ibooks.svg"
+  }
 }
