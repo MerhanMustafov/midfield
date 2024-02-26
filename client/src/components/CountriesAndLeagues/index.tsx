@@ -3,7 +3,7 @@ import CountriesAndLeaguesClient from './CountriesAndLeagues';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 
 async function getCountriesAndLeagues(): Promise<CountryDataType> {
-  const response = await fetch('http://localhost:3050/api/countriesWithLeagues', { cache: 'force-cache' });
+  const response = await fetch('https://midfield.onrender.com/api/countriesWithLeagues', { cache: 'force-cache' });
 
   if (response.status !== 200) {
     throw new Error();
