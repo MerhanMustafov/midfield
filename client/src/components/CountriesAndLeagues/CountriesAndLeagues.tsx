@@ -16,7 +16,7 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   const [searchInput, setSearchInput] = React.useState<string>('');
 
   useEffect(() => {
-    if (wrapperElement.current) {
+    if (wrapperElement.current && selectedCountry) {
       wrapperElement.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [selectedCountry]);
