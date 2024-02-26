@@ -18,8 +18,10 @@ function serverOn() {
   app.use(routerMiddleware(app));
 
   app.listen(PORT, () => {
-    console.log(`CORS are set:\n\torigin - ${process.env.CLIENT_URL}\n\tmethods - GET, HEAD`);
-    console.log(`App is running on port: http://localhost:${PORT}`);
+    console.log('Running');
+
+    // console.log(`CORS are set:\n\torigin - ${process.env.CLIENT_URL}\n\tmethods - GET, HEAD`);
+    // console.log(`App is running on port: http://localhost:${PORT}`);
   });
 }
 serverOn();
