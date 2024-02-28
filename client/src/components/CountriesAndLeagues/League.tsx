@@ -1,4 +1,5 @@
 import React from 'react';
+import NameWithLogo from '@/components/common/NameWithLogo';
 
 interface LeagueProps {
   leagueId: number;
@@ -10,10 +11,8 @@ interface LeagueProps {
 
 const League: React.FC<LeagueProps> = (props) => {
   return (
-    <div className="cursor-pointer px-2 py-1">
-      <div title={props.leagueName} className="overflow-hidden text-ellipsis text-nowrap">
-        {props.leagueName}
-      </div>
+    <div>
+      <NameWithLogo name={props.leagueName} logo={props.leagueLogo} />
     </div>
   );
 };

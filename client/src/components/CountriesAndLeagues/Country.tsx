@@ -1,4 +1,5 @@
 import React from 'react';
+import NameWithLogo from '@/components/common/NameWithLogo';
 
 interface CountryProps {
   countryName: string;
@@ -12,10 +13,8 @@ const Country: React.FC<CountryProps> = (props) => {
     props.clickHandler(props.countryName);
   };
   return (
-    <div onClick={handleCountryClick} className="cursor-pointer px-2 py-1">
-      <div title={props.countryName} className="overflow-hidden text-ellipsis text-nowrap">
-        {props.countryName}
-      </div>
+    <div onClick={handleCountryClick}>
+      <NameWithLogo name={props.countryName} logo={props.countryFlag} />
     </div>
   );
 };

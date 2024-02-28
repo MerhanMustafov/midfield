@@ -62,13 +62,16 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
               countryName={data.countryName}
               countryCode={data.countryCode}
               clickHandler={handleCountryClick}
+              countryFlag={data.countryFlag}
             />
           );
         })}
       {selectedCountry &&
         Object.values(filteredData[selectedCountry].leagues).map((data) => {
           const key = data.leagueId;
-          return <League key={key} leagueName={data.leagueName} leagueId={data.leagueId} />;
+          return (
+            <League key={key} leagueName={data.leagueName} leagueId={data.leagueId} leagueLogo={data.leagueLogo} />
+          );
         })}
     </div>
   );
