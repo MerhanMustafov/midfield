@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 import SearchInput from '@/components/common/SearchInput';
 import BackButton from '@/components/common/BackButton';
-import Country from '@/components/CountriesAndLeagues/Country';
-import League from '@/components/CountriesAndLeagues/League';
+import Country from '@/components/sections/CountriesAndLeagues/Country';
+import League from '@/components/sections/CountriesAndLeagues/League';
 
 type CountriesAndLeaguesClientProps = {
   countriesAndLeaguesData: CountryDataType;
