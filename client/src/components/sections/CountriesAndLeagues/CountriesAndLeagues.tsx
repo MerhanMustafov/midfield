@@ -24,12 +24,12 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   useEffect(() => {
     const timeOutID = setTimeout(() => {
       const filtered = Object.entries(props.countriesAndLeaguesData).reduce((acc, [key, value]) => {
-        if (key.toLowerCase().includes(searchInput.toLowerCase())) {
+        if (key.toLowerCase().startsWith(searchInput.toLowerCase())) {
           acc[key] = value;
         }
         return acc;
       }, {} as CountryDataType);
-      setFilteredData(filtered);
+      setFilteredData(Object.keys(filtered).length > 0 ? filtered : props.countriesAndLeaguesData);
     }, 700);
 
     return () => clearTimeout(timeOutID);
