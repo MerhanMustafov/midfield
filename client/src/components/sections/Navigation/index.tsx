@@ -22,7 +22,7 @@ export default function Navigation() {
             Field
           </span>
         </div>
-        <FiMenu onClick={handleToggle} className="cursor-pointer text-3xl text-white" />
+        <FiMenu onClick={handleToggle} className="cursor-pointer text-2xl text-white" />
       </div>
     </nav>
   );
