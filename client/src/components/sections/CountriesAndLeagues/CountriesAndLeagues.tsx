@@ -5,11 +5,13 @@ import SearchInput from '@/components/common/SearchInput';
 import BackButton from '@/components/common/BackButton';
 import Country from '@/components/sections/CountriesAndLeagues/Country';
 import League from '@/components/sections/CountriesAndLeagues/League';
+import { useVisibilityState } from '@/contexts/visibility';
 
 type CountriesAndLeaguesClientProps = {
   countriesAndLeaguesData: CountryDataType;
 };
 const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (props) => {
+  const { show } = useVisibilityState();
   const wrapperElement = React.useRef<HTMLDivElement>(null);
   const [filteredData, setFilteredData] = React.useState<CountryDataType>(props.countriesAndLeaguesData);
   const [selectedCountry, setSelectedCountry] = React.useState<keyof typeof props.countriesAndLeaguesData | null>(null);
@@ -44,8 +46,12 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
     setSelectedCountry(null);
   };
 
+  if (!show) {
+    return null;
+  }
+
   return (
-    <div ref={wrapperElement} className="min-h-[600px] w-[160px] gap-1">
+    <div ref={wrapperElement} className=" absolute left-0 right-0 top-0 z-30 min-h-[600px] w-full gap-1 bg-white">
       <div className=" flex min-h-[50px] items-center border-b-[1px] border-black">
         {selectedCountry ? (
           <BackButton clickHandler={handleBackClick} />

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/sections/Navigation';
+import { VisibilityProvider } from '@/contexts/visibility';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,15 +18,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} box-border min-h-svh`}>
-        <div className="grid h-full min-h-svh max-w-full grid-rows-[max-content,auto,max-content] gap-4">
-          <header>
-            <Navigation />
-          </header>
-          <main className="mx-auto h-full min-h-full w-full max-w-screen-xl p-5">{children}</main>
-          <footer className="text-black">Copyrights</footer>
-        </div>
-      </body>
+      <VisibilityProvider>
+        <body className={`${inter.className} box-border min-h-svh`}>
+          <div className="grid h-full min-h-svh max-w-full grid-rows-[max-content,auto,max-content]">
+            <header>
+              <Navigation />
+            </header>
+            <main className="mx-auto h-full min-h-full w-full max-w-screen-xl">{children}</main>
+            <footer className="text-black">Copyrights</footer>
+          </div>
+        </body>
+      </VisibilityProvider>
     </html>
   );
 }

@@ -7,7 +7,7 @@ interface NameWithLogoProps {
 }
 
 const Logo: React.FC<Required<NameWithLogoProps>> = ({ logo, name }) => {
-  return <Image src={logo} alt={`${name} flag `} width={20} height={20} />;
+  return <Image src={logo} alt={`${name} flag `} width={20} height={20} className="h-[20px] w-[20px]" />;
 };
 
 const EmptyLogoBox: React.FC = () => {
