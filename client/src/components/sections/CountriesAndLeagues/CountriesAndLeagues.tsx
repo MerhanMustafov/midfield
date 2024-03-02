@@ -57,11 +57,11 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
 
   return (
     <div ref={wrapperElement} className="absolute left-0 right-0 top-0 z-30 min-h-svh w-full gap-1 bg-white ">
-      <div className="sticky top-0 flex justify-end bg-white py-2 pr-4">
+      <div className="sticky top-0 flex justify-end bg-white py-3 pr-4">
         <CgCloseR onClick={handleClose} className="cursor-pointer text-2xl" />
       </div>
       <div className="mx-auto w-[90%]">
-        <div className=" flex min-h-[50px] items-center justify-center border-b-[1px] border-black">
+        <div className=" min-h-[50px] flex-col items-center justify-center ">
           {selectedCountry ? (
             <BackButton clickHandler={handleBackClick} />
           ) : (
