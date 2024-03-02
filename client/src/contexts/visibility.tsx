@@ -7,12 +7,12 @@ type VisibilityContextState = {
 };
 
 const VisibilityContext = createContext<VisibilityContextState>({
-  show: true,
+  show: false,
   toggle: () => {},
 });
 
 export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const toggleCountriesAndLeagues = useCallback(
     (display?: boolean) => {
