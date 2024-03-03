@@ -20,6 +20,7 @@ export default function Navigation() {
 
   const handleLogoClick = () => {
     router.push('/');
+    toggleNavMobile(false);
   };
 
   return (
