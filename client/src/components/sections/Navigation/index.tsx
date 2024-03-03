@@ -1,15 +1,29 @@
 'use client';
 import { FiMenu } from 'react-icons/fi';
 import { useVisibilityState } from '@/contexts/visibility';
+import Link from 'next/link';
 
 export default function Navigation() {
-  const { toggle } = useVisibilityState();
+  const {
+    countriesAndLeagues: { toggleCountriesAndLeagues },
+    navMobile: { showNavMobile, toggleNavMobile },
+  } = useVisibilityState();
 
-  const handleToggle = () => {
-    toggle();
+  const handleToggleNavDropDown = () => {
+    toggleNavMobile();
+  };
+  const handleToggleCountriesAndLeagues = () => {
+    console.log('handleToggleCountriesAndLeagues');
+
+    toggleCountriesAndLeagues();
+    toggleNavMobile(false);
+  };
+
+  const closeDropDown = () => {
+    toggleNavMobile(false);
   };
   return (
-    <nav className="bg-black-perl p-3 shadow-md shadow-black md:p-4">
+    <nav className="relative box-border bg-black-perl p-3 shadow-md shadow-black md:p-4">
       <div className=" flex w-max cursor-pointer flex-row flex-nowrap items-center gap-4 rounded-sm px-2">
         <div>
           <span
@@ -22,7 +36,21 @@ export default function Navigation() {
             Field
           </span>
         </div>
-        <FiMenu onClick={handleToggle} className="cursor-pointer text-2xl text-white" />
+        <FiMenu onClick={handleToggleNavDropDown} className="cursor-pointer text-2xl text-white" />
+        <div className="text-lg text-white">
+          <div onClick={handleToggleCountriesAndLeagues}>C/L</div>
+        </div>
+        {showNavMobile && (
+          <div className="absolute left-0 right-0 top-[calc(100%)] z-10 flex flex-col items-center gap-4 overflow-x-auto bg-black-perl p-3  text-white">
+            <Link onClick={closeDropDown} href="/auth/sign-in">
+              Sign in
+            </Link>
+            <Link onClick={closeDropDown} href="/">
+              Home
+            </Link>
+            <div>Profile</div>
+          </div>
+        )}
       </div>
     </nav>
   );

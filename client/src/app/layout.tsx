@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/sections/Navigation';
 import { VisibilityProvider } from '@/contexts/visibility';
-
+import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -27,6 +27,7 @@ export default function RootLayout({
             <main className="mx-auto h-full min-h-full w-full max-w-screen-xl">{children}</main>
             <footer className="text-black">Copyrights</footer>
           </div>
+          <CountriesAndLeagues />
         </body>
       </VisibilityProvider>
     </html>

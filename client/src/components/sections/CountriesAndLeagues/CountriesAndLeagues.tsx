@@ -11,7 +11,9 @@ type CountriesAndLeaguesClientProps = {
   countriesAndLeaguesData: CountryDataType;
 };
 const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (props) => {
-  const { show, toggle } = useVisibilityState();
+  const {
+    countriesAndLeagues: { showCountriesAndLeagues, toggleCountriesAndLeagues },
+  } = useVisibilityState();
   const [filteredData, setFilteredData] = React.useState<CountryDataType>(props.countriesAndLeaguesData);
   const [selectedCountry, setSelectedCountry] = React.useState<string | null>(null);
   const [searchInput, setSearchInput] = React.useState<string>('');
@@ -36,17 +38,20 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   };
 
   const handleClose = () => {
-    toggle(false);
+    toggleCountriesAndLeagues(false);
     setSelectedCountry(null);
     setSearchInput('');
   };
 
-  if (!show) {
+  if (!showCountriesAndLeagues) {
     return null;
   }
 
   return (
-    <div className="absolute left-0 right-0 top-0 z-30 min-h-svh w-full gap-1 bg-white ">
+    <div
+      id="countriesAndLeaguesElementId"
+      className="fixed left-0 right-0 top-0 z-30 h-full min-h-svh w-full gap-1 overflow-y-auto bg-white "
+    >
       <div>
         <div className="sticky top-0  flex flex-col bg-white">
           <div className=" flex justify-end py-2 pr-2 ">

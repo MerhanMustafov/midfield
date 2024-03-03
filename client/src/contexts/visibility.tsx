@@ -2,31 +2,59 @@
 import React, { createContext, useState, useContext, useMemo, useCallback } from 'react';
 
 type VisibilityContextState = {
-  show: boolean;
-  toggle: (display?: boolean) => void;
+  navMobile: {
+    showNavMobile: boolean;
+    toggleNavMobile: (display?: boolean) => void;
+  };
+  countriesAndLeagues: {
+    showCountriesAndLeagues: boolean;
+    toggleCountriesAndLeagues: (display?: boolean) => void;
+  };
 };
 
 const VisibilityContext = createContext<VisibilityContextState>({
-  show: false,
-  toggle: () => {},
+  navMobile: {
+    showNavMobile: false,
+    toggleNavMobile: () => {},
+  },
+  countriesAndLeagues: {
+    showCountriesAndLeagues: false,
+    toggleCountriesAndLeagues: () => {},
+  },
 });
 
 export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [show, setShow] = useState(false);
+  const [showNavMobile, setShowNavMobile] = useState(false);
+  const [showCountriesAndLeagues, setShowCountriesAndLeagues] = useState(false);
 
   const toggleCountriesAndLeagues = useCallback(
     (display?: boolean) => {
-      setShow(display ?? !show);
+      console.log('toggleCountriesAndLeagues');
+
+      setShowCountriesAndLeagues(display ?? !showCountriesAndLeagues);
     },
-    [show],
+    [showCountriesAndLeagues],
+  );
+  const toggleNavMobile = useCallback(
+    (display?: boolean) => {
+      setShowNavMobile(display ?? !showNavMobile);
+    },
+    [showNavMobile],
   );
 
   const value = useMemo(
-    () => ({
-      show,
-      toggle: toggleCountriesAndLeagues,
-    }),
-    [show, toggleCountriesAndLeagues],
+    () =>
+      ({
+        navMobile: {
+          showNavMobile,
+          toggleNavMobile,
+        },
+        countriesAndLeagues: {
+          showCountriesAndLeagues,
+          toggleCountriesAndLeagues,
+        },
+      }) as VisibilityContextState,
+    [showCountriesAndLeagues, toggleCountriesAndLeagues, showNavMobile, toggleNavMobile],
   );
 
   return <VisibilityContext.Provider value={value}>{children}</VisibilityContext.Provider>;
