@@ -16,12 +16,9 @@ interface CountryProps {
 const Country: React.FC<CountryProps> = (props) => {
   const countryWrapperEl = useRef<HTMLDivElement>(null);
   const isSelectedCountry = props.selectedCountry === props.countryName;
-  console.log(countryWrapperEl);
 
   useEffect(() => {
     if (countryWrapperEl.current && props.selectedCountry && isSelectedCountry) {
-      console.log([countryWrapperEl.current]);
-
       window.scrollTo({
         top: countryWrapperEl.current.offsetTop - 32, // 32 is the py of the sticky headers
         behavior: 'smooth',
