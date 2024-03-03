@@ -16,7 +16,7 @@ const EmptyLogoBox: React.FC = () => {
 
 const NameWithLogo: React.FC<NameWithLogoProps> = ({ name, logo }) => {
   return (
-    <div className="flex w-full cursor-pointer flex-row items-center gap-3 overflow-hidden p-1 hover:shadow hover:shadow-black ">
+    <div className="flex cursor-pointer flex-row items-center gap-3 overflow-hidden p-1 hover:shadow hover:shadow-black ">
       {logo ? <Logo logo={logo} name={name} /> : <EmptyLogoBox />}
       <div title={name} className="overflow-hidden text-ellipsis text-nowrap">
         {name}

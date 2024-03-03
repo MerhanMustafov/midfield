@@ -2,9 +2,8 @@
 import React, { useEffect } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 import SearchInput from '@/components/common/SearchInput';
-import BackButton from '@/components/common/BackButton';
 import Country from '@/components/sections/CountriesAndLeagues/Country';
-import League from '@/components/sections/CountriesAndLeagues/League';
+
 import { useVisibilityState } from '@/contexts/visibility';
 import { CgCloseR } from 'react-icons/cg';
 
@@ -13,16 +12,9 @@ type CountriesAndLeaguesClientProps = {
 };
 const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (props) => {
   const { show, toggle } = useVisibilityState();
-  const wrapperElement = React.useRef<HTMLDivElement>(null);
   const [filteredData, setFilteredData] = React.useState<CountryDataType>(props.countriesAndLeaguesData);
-  const [selectedCountry, setSelectedCountry] = React.useState<keyof typeof props.countriesAndLeaguesData | null>(null);
+  const [selectedCountry, setSelectedCountry] = React.useState<string | null>(null);
   const [searchInput, setSearchInput] = React.useState<string>('');
-
-  useEffect(() => {
-    if (wrapperElement.current && selectedCountry) {
-      wrapperElement.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [selectedCountry]);
 
   useEffect(() => {
     const timeOutID = setTimeout(() => {
@@ -38,13 +30,10 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
     return () => clearTimeout(timeOutID);
   }, [searchInput, props.countriesAndLeaguesData]);
 
-  const handleCountryClick = (country: keyof typeof props.countriesAndLeaguesData) => {
-    setSelectedCountry(country);
+  const handleCountryClick = (country: string | null) => {
+    const isClickedCurrentCountry = selectedCountry === country;
+    setSelectedCountry(isClickedCurrentCountry ? null : country);
     setSearchInput('');
-  };
-
-  const handleBackClick = () => {
-    setSelectedCountry(null);
   };
 
   const handleClose = () => {
@@ -56,38 +45,32 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   }
 
   return (
-    <div ref={wrapperElement} className="absolute left-0 right-0 top-0 z-30 min-h-svh w-full gap-1 bg-white ">
-      <div className="sticky top-0 flex justify-end bg-white py-3 pr-4">
-        <CgCloseR onClick={handleClose} className="cursor-pointer text-2xl" />
-      </div>
-      <div className="mx-auto w-[90%]">
-        <div className="mb-4 flex-col items-center justify-center ">
-          {selectedCountry ? (
-            <BackButton clickHandler={handleBackClick} />
-          ) : (
+    <div className="absolute left-0 right-0 top-0 z-30 min-h-svh w-full gap-1 bg-white ">
+      <div>
+        <div className="sticky top-0  flex flex-col bg-white">
+          <div className=" flex justify-end py-2 pr-2 ">
+            <CgCloseR onClick={handleClose} className="cursor-pointer text-2xl" />
+          </div>
+          <div className="sticky top-auto flex-col items-center justify-center px-2 py-2 ">
             <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} />
-          )}
+          </div>
         </div>
-        {!selectedCountry &&
-          Object.values(filteredData).map((data) => {
+        <div className="mx-auto w-[90%] ">
+          {Object.values(filteredData).map((data) => {
             const key = JSON.stringify(data);
             return (
               <Country
                 key={key}
                 countryName={data.countryName}
                 countryCode={data.countryCode}
-                clickHandler={handleCountryClick}
                 countryFlag={data.countryFlag}
+                selectedCountry={selectedCountry}
+                filteredData={filteredData}
+                clickHandler={handleCountryClick}
               />
             );
           })}
-        {selectedCountry &&
-          Object.values(filteredData[selectedCountry].leagues).map((data) => {
-            const key = data.leagueId;
-            return (
-              <League key={key} leagueName={data.leagueName} leagueId={data.leagueId} leagueLogo={data.leagueLogo} />
-            );
-          })}
+        </div>
       </div>
     </div>
   );
