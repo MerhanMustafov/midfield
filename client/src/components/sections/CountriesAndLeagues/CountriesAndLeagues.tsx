@@ -38,6 +38,7 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
 
   const handleClose = () => {
     toggle(false);
+    setSelectedCountry(null);
   };
 
   if (!show) {
