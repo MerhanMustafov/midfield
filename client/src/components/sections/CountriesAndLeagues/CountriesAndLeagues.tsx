@@ -33,12 +33,12 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   const handleCountryClick = (country: string | null) => {
     const isClickedCurrentCountry = selectedCountry === country;
     setSelectedCountry(isClickedCurrentCountry ? null : country);
-    setSearchInput('');
   };
 
   const handleClose = () => {
     toggle(false);
     setSelectedCountry(null);
+    setSearchInput('');
   };
 
   if (!show) {
