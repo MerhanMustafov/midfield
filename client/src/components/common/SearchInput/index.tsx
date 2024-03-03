@@ -11,8 +11,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
     props.setSearchInput(e.target.value);
   };
   return (
-    <div className=" flex w-full  flex-nowrap items-center border-[1px] border-slate-900 focus-within:border-transparent focus-within:shadow-searchInput ">
-      <MdSearch className=" w-[20%] cursor-pointer pl-1 text-2xl" />
+    <div className=" flex w-full  flex-nowrap items-stretch justify-stretch border-[1px] border-slate-900 focus-within:border-transparent focus-within:shadow-searchInput ">
+      <MdSearch className="h-9 w-auto cursor-pointer p-1" />
       <input
         className="w-full bg-transparent p-1 outline-none"
         type="text"

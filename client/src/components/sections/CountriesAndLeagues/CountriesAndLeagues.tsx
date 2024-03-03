@@ -61,7 +61,7 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
         <CgCloseR onClick={handleClose} className="cursor-pointer text-2xl" />
       </div>
       <div className="mx-auto w-[90%]">
-        <div className=" min-h-[50px] flex-col items-center justify-center ">
+        <div className="flex-col items-center justify-center ">
           {selectedCountry ? (
             <BackButton clickHandler={handleBackClick} />
           ) : (
