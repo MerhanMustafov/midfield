@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <VisibilityProvider>
         <body className={`${inter.className} box-border min-h-svh`}>
-          <div className="grid h-full min-h-svh max-w-full grid-rows-[max-content,auto,max-content]">
+          <div className="grid h-full min-h-svh max-w-full grid-rows-[max-content,auto,max-content] gap-4">
             <header>
               <Navigation />
             </header>

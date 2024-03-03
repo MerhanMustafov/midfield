@@ -29,8 +29,6 @@ export const VisibilityProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const toggleCountriesAndLeagues = useCallback(
     (display?: boolean) => {
-      console.log('toggleCountriesAndLeagues');
-
       setShowCountriesAndLeagues(display ?? !showCountriesAndLeagues);
     },
     [showCountriesAndLeagues],
