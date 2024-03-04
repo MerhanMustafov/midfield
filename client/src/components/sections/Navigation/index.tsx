@@ -48,6 +48,9 @@ export default function Navigation() {
             <Link onClick={closeDropDown} href="/auth/sign-in">
               Sign in
             </Link>
+            <Link onClick={closeDropDown} href="/auth/sign-up">
+              Sign up
+            </Link>
             <Link onClick={closeDropDown} href="/">
               Home
             </Link>

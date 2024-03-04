@@ -1,7 +1,10 @@
+import React from 'react';
+import SignIn from '@/components/sections/auth/SignIn';
+
 const SignInPage: React.FC = () => {
   return (
     <div>
-      <h1>Sign In Page</h1>
+      <SignIn />
     </div>
   );
 };
