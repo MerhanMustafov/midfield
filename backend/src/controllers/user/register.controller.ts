@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { pgClient } from '@configs/pgDB.configs';
 import { hashPassword } from '@utils/password.utils';
 
@@ -34,11 +35,23 @@ export async function registerUser(req: Request, res: Response) {
       [userName, email, firstName, lastName, hashedPassword],
     );
 
-    if (!createdUserData.rows[0]) {
+    const userData = createdUserData.rows[0];
+    if (!userData) {
       throw new Error('Error has occurred while creating user. Please try again.');
     }
 
-    return res.status(201).json({ userData: createdUserData.rows[0] });
+    const tokenData = { id: userData.id, userName: userData.username, email: userData.email };
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET!);
+
+    const returnData = {
+      id: userData.id,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      userName: userData.username,
+      token,
+    };
+    return res.status(201).json({ userData: returnData });
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res.status(400).json({ error: error.message });

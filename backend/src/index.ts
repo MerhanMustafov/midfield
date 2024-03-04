@@ -6,6 +6,7 @@ import cors from 'cors';
 import express, { Express } from 'express';
 import { corsConfig } from '@configs/cors.configs';
 import { pgClient } from '@configs/pgDB.configs';
+import verifyToken from '@middlewares/auth.middlewares';
 import routerMiddleware from '@middlewares/router.middlewares';
 
 const app: Express = express();
@@ -23,6 +24,9 @@ app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use('/static', express.static('assets'));
 app.use(routerMiddleware(app));
+
+// TODO: ETHER leave it like that for all routes or add verifyToken middleware only to the routes that need authentication
+app.use(verifyToken);
 
 async function serverOn() {
   app.listen(PORT, () => {

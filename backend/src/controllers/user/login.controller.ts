@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { pgClient } from '@configs/pgDB.configs';
 import { comparePassword } from '@utils/password.utils';
 
@@ -26,8 +27,19 @@ export async function loginUser(req: Request, res: Response) {
     if (!isPasswordCorrect) {
       throw new Error('Password is incorrect.');
     }
+    const tokenData = { id: userData.id, userName: userData.username, email: userData.email };
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET!);
 
-    return res.status(201).json({ userData: userData });
+    const returnData = {
+      id: userData.id,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      userName: userData.username,
+      token,
+    };
+
+    return res.status(201).json({ userData: returnData });
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res.status(400).json({ error: error.message });
