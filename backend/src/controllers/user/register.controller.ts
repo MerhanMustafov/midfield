@@ -7,7 +7,7 @@ export async function registerUser(req: Request, res: Response) {
 
   const hashedPassword = hashPassword(password);
 
-  const isThereRequiredFields =
+  const isThereMissingRequiredFields =
     email === undefined ||
     firstName === undefined ||
     lastName === undefined ||
@@ -15,7 +15,7 @@ export async function registerUser(req: Request, res: Response) {
     hashedPassword === undefined;
 
   try {
-    if (isThereRequiredFields) {
+    if (isThereMissingRequiredFields) {
       throw new Error('Required fields are missing. Please check and try again.');
     }
 
