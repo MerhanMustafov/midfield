@@ -39,23 +39,6 @@ type LeaguesResponseTypes<T> = {
   response: T;
 };
 
-// type CountriesWithLeaguesReturnTypeSuccess = {
-//   data: {
-//     [CountryName: string]: {
-//       countryName: string;
-//       countryFlag: string;
-//       countryCode: string;
-//       leagues: ByLeagueKey;
-//     };
-//   };
-//   error: null;
-// };
-
-// type CountriesWithLeaguesReturnTypeError = {
-//   data: null;
-//   error: string;
-// };
-
 export async function getCountriesWithLeaguesData(req: Request, res: Response) {
   try {
     const response = await customAxios.get('/leagues');
