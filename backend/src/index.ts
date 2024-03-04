@@ -1,7 +1,6 @@
 import 'module-alias/register';
 import '@configs/dotenv.configs';
 import '@configs/axios.configs';
-import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Express } from 'express';
@@ -32,12 +31,3 @@ async function serverOn() {
   });
 }
 serverOn();
-
-async function cryptPass() {
-  const password = '123';
-  const saltRounds = 10;
-  const hash = bcrypt.hashSync(password, saltRounds);
-  console.log(hash);
-}
-
-cryptPass();
