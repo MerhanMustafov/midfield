@@ -9,7 +9,11 @@ import bcrypt from 'bcrypt';
  *
  * @example - hashPassword('password') => '$2b$10$3Z
  */
-export const hashPassword = (password: string) => {
+export const hashPassword = (password: string): string => {
   const saltRounds = 10;
   return bcrypt.hashSync(password, saltRounds);
+};
+
+export const comparePassword = (password: string, hashedPassword: string): boolean => {
+  return bcrypt.compareSync(password, hashedPassword);
 };
