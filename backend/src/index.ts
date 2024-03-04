@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use('/static', express.static('assets'));
 app.use(routerMiddleware(app));
 
-// TODO: ETHER leave it like that for all routes or add verifyToken middleware only to the routes that need authentication
+// TODO: EITHER leave it like that for all routes or add verifyToken middleware only to the routes that need authentication
 app.use(verifyToken);
 
 async function serverOn() {
