@@ -2,21 +2,21 @@ import React from 'react';
 import CountriesAndLeaguesClient from './CountriesAndLeagues';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 
-async function getCountriesAndLeagues(): Promise<CountryDataType> {
+async function getCountriesAndLeagues() {
   // TODO: use local url root for dev and prod url for prod
-  const response = await fetch('https://midfield.onrender.com/api/countriesWithLeagues', { cache: 'force-cache' });
-
-  if (response.status !== 200) {
-    throw new Error();
-  }
-
-  return await response.json();
+  return await fetch('http://localhost:3050/api/countriesWithLeagues', { cache: 'force-cache' });
 }
 
 const CountriesAndLeaguesServer: React.FC = async () => {
-  const countriesAndLeaguesData = await getCountriesAndLeagues();
+  const res = await getCountriesAndLeagues();
 
-  return <CountriesAndLeaguesClient countriesAndLeaguesData={countriesAndLeaguesData} />;
+  if (res.status !== 200) {
+    return <div>Opps, Error has occurred</div>;
+  }
+
+  const data: CountryDataType = await res.json();
+
+  return <CountriesAndLeaguesClient countriesAndLeaguesData={data} />;
 };
 
 export default CountriesAndLeaguesServer;

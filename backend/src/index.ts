@@ -6,7 +6,7 @@ import cors from 'cors';
 import express, { Express } from 'express';
 import { corsConfig } from '@configs/cors.configs';
 import { pgClient } from '@configs/pgDB.configs';
-import verifyToken from '@middlewares/auth.middlewares';
+// import verifyToken from '@middlewares/auth.middlewares';
 import routerMiddleware from '@middlewares/router.middlewares';
 
 const app: Express = express();
@@ -23,15 +23,14 @@ pgClient.connect((err) => {
 app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use('/static', express.static('assets'));
-app.use(routerMiddleware(app));
 
 // TODO: EITHER leave it like that for all routes or add verifyToken middleware only to the routes that need authentication
-app.use(verifyToken);
+// the verifyToken should always come before the routerMiddleware
+// app.use(verifyToken);
 
-async function serverOn() {
-  app.listen(PORT, () => {
-    console.log(`CORS are set:\n\torigin - ${process.env.CLIENT_URL}\n\tmethods - GET, HEAD`);
-    console.log(`App is running on port: http://localhost:${PORT}`);
-  });
-}
-serverOn();
+app.use(routerMiddleware(app));
+
+app.listen(PORT, () => {
+  console.log(`CORS are set:\n\torigin - ${process.env.CLIENT_URL}\n\tmethods - GET, HEAD`);
+  console.log(`App is running on port: http://localhost:${PORT}`);
+});
