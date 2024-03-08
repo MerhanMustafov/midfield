@@ -1,10 +1,10 @@
 import React from 'react';
 import CountriesAndLeaguesClient from './CountriesAndLeagues';
 import { CountryDataType } from '@/types/countriesAndLeagues';
+import { URL_COUNTRIES_WITH_LEAGUES } from '@/constants/endpoints.constants';
 
 async function getCountriesAndLeagues() {
-  // TODO: use local url root for dev and prod url for prod
-  return await fetch('http://localhost:3050/api/countriesWithLeagues', { cache: 'force-cache' });
+  return await fetch(URL_COUNTRIES_WITH_LEAGUES, { cache: 'force-cache' });
 }
 
 const CountriesAndLeaguesServer: React.FC = async () => {
