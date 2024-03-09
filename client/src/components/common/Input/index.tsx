@@ -8,7 +8,6 @@ interface InputProps {
   error: string | undefined;
   touched: boolean | undefined;
   formikHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  formikHandleBlur: (fieldId: string) => void;
   formikHandleFocus: (fieldId: string, touched: boolean) => void;
 }
 
@@ -18,7 +17,6 @@ const Input: React.FC<InputProps> = ({
   value,
   error,
   formikHandleChange,
-  formikHandleBlur,
   formikHandleFocus,
   labelTxt,
   inputFieldId,
@@ -37,14 +35,13 @@ const Input: React.FC<InputProps> = ({
   const handleBlur = () => {
     setIsFocused(false);
     formikHandleFocus(inputFieldId, true);
-    formikHandleBlur(inputFieldId);
   };
 
   return (
     <div onClick={handleClick}>
       <div className="relative flex w-full flex-col focus-within:shadow-searchInput">
         <label
-          className={`${applyLabelStyle ? ' bottom-[80%] left-[0px] ml-2 translate-y-[unset]  bg-white text-lg  transition-all duration-1000 ease-out' : 'bottom-[50%] left-2  translate-y-[50%]'} ${'absolute  text-xl'}`}
+          className={`${applyLabelStyle ? 'bottom-[80%] left-[0px] ml-2 translate-y-[unset]  bg-white text-lg  transition-all duration-1000 ease-out' : 'bottom-[50%] left-2  translate-y-[50%]'} ${'absolute  text-base'}`}
         >
           {labelTxt}
         </label>
@@ -56,10 +53,14 @@ const Input: React.FC<InputProps> = ({
           value={value}
           onChange={formikHandleChange}
           onBlur={handleBlur}
-          className="border-2 border-emerald-950 px-4 pb-2 pt-2 text-2xl outline-none focus:border-2 focus:border-transparent"
+          className="border-2 border-emerald-950 px-4 py-2 text-lg outline-none focus:border-2 focus:border-transparent"
         />
       </div>
-      {touched && error && <p className="text-sm  text-red-600">{error}</p>}
+      {touched && error ? (
+        <p className="text-sm  text-red-600">{error}</p>
+      ) : (
+        <div className="text-sm text-transparent">Text</div>
+      )}
     </div>
   );
 };

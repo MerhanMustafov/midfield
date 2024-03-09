@@ -21,10 +21,9 @@ export async function registerUser(req: Request, res: Response) {
     }
 
     // Check if user with this email already exists
-    const exists = await pgClient.query(
-      'SELECT * FROM users WHERE LOWER(email) = $1 OR LOWER(userName) = $2',
-      [email.toLowerCase(), userName.toLowerCase()],
-    );
+    const exists = await pgClient.query('SELECT * FROM users WHERE LOWER(email) = $1', [
+      email.toLowerCase(),
+    ]);
     if (exists.rows[0]) {
       throw new Error('User with this email already exists.');
     }
