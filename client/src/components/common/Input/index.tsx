@@ -39,7 +39,6 @@ const Input: React.FC<InputProps> = ({
     formikHandleFocus(inputFieldId, true);
     formikHandleBlur(inputFieldId);
   };
-  console.log(touched, 'touched');
 
   return (
     <div onClick={handleClick}>
