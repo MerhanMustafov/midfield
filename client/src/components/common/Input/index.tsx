@@ -1,12 +1,14 @@
 import React, { useRef, useMemo, useState } from 'react';
 
 interface InputProps {
-  value: string;
-  setInput: (value: string) => void;
   labelTxt: string;
+  inputFieldId: string;
+  value: string;
+  error: string | undefined;
+  formikHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ value, setInput, labelTxt }) => {
+const Input: React.FC<InputProps> = ({ value, error, formikHandleChange, labelTxt, inputFieldId }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -22,20 +24,25 @@ const Input: React.FC<InputProps> = ({ value, setInput, labelTxt }) => {
   };
 
   return (
-    <div onClick={handleClick} className="group relative flex w-full flex-col border-2 border-red-600">
-      <label
-        className={`${applyLabelStyle ? ' bottom-full left-[0px]  translate-y-[unset] text-lg  transition-all duration-1000 ease-out' : 'bottom-[-20%]  translate-y-[-50%]'} ${'absolute left-[10px] text-2xl'}`}
-      >
-        {labelTxt}
-      </label>
-      <input
-        ref={inputRef}
-        onBlur={handleBlur}
-        onChange={(e) => setInput(e.target.value)}
-        type="text"
-        value={value}
-        className="border-2 border-green-600 px-2 py-1 text-2xl outline-none"
-      />
+    <div onClick={handleClick}>
+      <div className="relative flex w-full flex-col focus-within:shadow-searchInput">
+        <label
+          className={`${applyLabelStyle ? ' bottom-[80%] left-[0px] ml-2 translate-y-[unset]  bg-white text-lg  transition-all duration-1000 ease-out' : 'bottom-[50%] left-2  translate-y-[50%]'} ${'absolute  text-2xl'}`}
+        >
+          {labelTxt}
+        </label>
+        <input
+          type="text"
+          ref={inputRef}
+          id={inputFieldId}
+          name={inputFieldId}
+          value={value}
+          onChange={formikHandleChange}
+          onBlur={handleBlur}
+          className="border-2 border-emerald-950 px-4 pb-2 pt-4 text-2xl outline-none focus:border-2 focus:border-transparent"
+        />
+      </div>
+      {error && <p className="text-sm  text-red-600">{error}</p>}
     </div>
   );
 };

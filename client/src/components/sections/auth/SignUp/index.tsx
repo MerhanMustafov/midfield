@@ -1,28 +1,62 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Input from '@/components/common/Input';
-
-const SIGN_UP_FORM_NAME = 'Sign Up';
-const FIRST_NAME_LABEL = 'First Name';
-const LAST_NAME_LABEL = 'Last Name';
-const EMAIL_LABEL = 'Email';
+import { useFormik } from 'formik';
+import {
+  SIGN_UP_FORM_NAME,
+  FIRST_NAME_LABEL,
+  LAST_NAME_LABEL,
+  EMAIL_LABEL,
+  FIRST_NAME_INPUT_ID,
+  LAST_NAME_INPUT_ID,
+  EMAIL_INPUT_ID,
+} from './signUp.constants';
+import { signUpValidateSchema } from './signUp.validate.schema';
 
 const SignUp: React.FC = () => {
-  const [fistName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      [FIRST_NAME_INPUT_ID]: '',
+      [LAST_NAME_INPUT_ID]: '',
+      [EMAIL_INPUT_ID]: '',
+    },
+    validationSchema: signUpValidateSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   return (
-    <div>
-      <h2>{SIGN_UP_FORM_NAME}</h2>
-      <form action="">
-        <div className="flex flex-col gap-4">
-          <div className="flex  gap-4">
-            <Input labelTxt={FIRST_NAME_LABEL} value={fistName} setInput={setFirstName} />
-            <Input labelTxt={LAST_NAME_LABEL} value={lastName} setInput={setLastName} />
+    <div className="flex flex-col gap-10 px-4">
+      <h2 className="text-4xl"> {SIGN_UP_FORM_NAME}</h2>
+      <form onSubmit={formik.handleSubmit} className="mx-auto w-[90%]">
+        <div className="box-border flex flex-col gap-10 ">
+          <div className="flex flex-col  gap-10">
+            <Input
+              inputFieldId={FIRST_NAME_INPUT_ID}
+              labelTxt={FIRST_NAME_LABEL}
+              value={formik.values[FIRST_NAME_INPUT_ID]}
+              error={formik.errors[FIRST_NAME_INPUT_ID]}
+              formikHandleChange={formik.handleChange}
+            />
+            <Input
+              inputFieldId={LAST_NAME_INPUT_ID}
+              labelTxt={LAST_NAME_LABEL}
+              value={formik.values[LAST_NAME_INPUT_ID]}
+              error={formik.errors[LAST_NAME_INPUT_ID]}
+              formikHandleChange={formik.handleChange}
+            />
           </div>
-          <Input labelTxt={EMAIL_LABEL} value={email} setInput={setEmail} />
+          <Input
+            inputFieldId={EMAIL_INPUT_ID}
+            labelTxt={EMAIL_LABEL}
+            value={formik.values[EMAIL_INPUT_ID]}
+            error={formik.errors[EMAIL_INPUT_ID]}
+            formikHandleChange={formik.handleChange}
+          />
         </div>
+
+        <button type="submit"> Submit </button>
       </form>
     </div>
   );
