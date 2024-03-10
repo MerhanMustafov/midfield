@@ -23,7 +23,7 @@
   // Code Spell Checker plugin settings
   "cSpell.globRoot": "${workspaceFolder}",
   "cSpell.ignorePaths": ["*", "!client/src", "!backend/src"],
-  "cSpell.ignoreWords": ["apisports"],
+  "cSpell.ignoreWords": ["apisports", "formik"],
 
   // Tailwind CSS IntelliSense plugin settings
   "tailwindCSS.hovers": true,
