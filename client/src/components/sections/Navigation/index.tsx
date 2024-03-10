@@ -2,10 +2,13 @@
 import { FiMenu } from 'react-icons/fi';
 import { useVisibilityState } from '@/contexts/visibility';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { getUser, removeUser } from '@/utils/user.utils';
 
 export default function Navigation() {
   const router = useRouter();
+  const user = getUser();
+
   const {
     navMobile: { showNavMobile, toggleNavMobile },
   } = useVisibilityState();
@@ -23,6 +26,11 @@ export default function Navigation() {
     toggleNavMobile(false);
   };
 
+  const handleSignOut = () => {
+    removeUser();
+    closeDropDown();
+    redirect('/');
+  };
   return (
     <nav className="relative box-border bg-black-perl p-3 md:p-4">
       <div className=" flex w-max cursor-pointer flex-row flex-nowrap items-center gap-4 px-2">
@@ -45,16 +53,28 @@ export default function Navigation() {
 
         {showNavMobile && (
           <div className="absolute left-0 right-0 top-[calc(100%)] z-10 flex flex-col items-center gap-4 overflow-x-auto bg-black-perl p-3  text-white">
-            <Link onClick={closeDropDown} href="/auth/sign-in">
-              Sign in
-            </Link>
-            <Link onClick={closeDropDown} href="/auth/sign-up">
-              Sign up
-            </Link>
+            {user && <div>profile</div>}
             <Link onClick={closeDropDown} href="/">
               Home
             </Link>
-            <div>Profile</div>
+
+            {!user ? (
+              <div className="my-4 flex w-full flex-col items-center gap-2 border-t-2 border-t-white p-2">
+                <Link onClick={closeDropDown} href="/auth/sign-in">
+                  Sign in
+                </Link>
+                <Link onClick={closeDropDown} href="/auth/sign-up">
+                  Sign up
+                </Link>
+              </div>
+            ) : (
+              <div
+                onClick={closeDropDown}
+                className="my-4 flex w-full flex-col items-center gap-2 border-t-2 border-t-white p-2"
+              >
+                <div onClick={handleSignOut}>Sign out</div>
+              </div>
+            )}
           </div>
         )}
       </div>

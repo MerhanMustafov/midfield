@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '@/components/common/Input';
 import { useFormik } from 'formik';
 import {
@@ -18,9 +18,13 @@ import {
   REPEAT_PASSWORD_LABEL,
 } from './signUp.constants';
 import { signUpValidateSchema } from './signUp.validate.schema';
-import { URL_REGISTER } from '@/constants/endpoints.constants';
+import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
+import { useRouter } from 'next/navigation';
 
 const SignUp: React.FC = () => {
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const formik = useFormik({
     initialValues: {
       [FIRST_NAME_INPUT_ID]: '',
@@ -33,13 +37,23 @@ const SignUp: React.FC = () => {
     validationSchema: signUpValidateSchema,
     validateOnChange: true,
     onSubmit: async (values) => {
-      await fetch(URL_REGISTER, {
+      const res = await fetch(CLIENT_BASE_URL + '/api/post/signUp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
       });
+      if (res.status !== 201) {
+        const data = await res.json();
+        setServerError(data.error);
+        return;
+      }
+      const resData = await res.json();
+      localStorage.setItem('midfieldUser', JSON.stringify(resData));
+
+      setServerError(null);
+      router.push('/');
     },
   });
 
@@ -107,9 +121,12 @@ const SignUp: React.FC = () => {
             formikHandleFocus={formik.setFieldTouched}
           />
         </div>
-        <button type="submit" className="cursor-pointer bg-black-perl py-2 text-xl text-white ">
-          Sign Up
-        </button>
+        <div className="flex w-full flex-col items-center gap-2">
+          {serverError && <div className="text-lg text-red-500">{serverError}</div>}
+          <button type="submit" className="w-full cursor-pointer bg-black-perl py-2 text-xl text-white ">
+            Sign Up
+          </button>
+        </div>
       </form>
     </div>
   );

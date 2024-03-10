@@ -25,7 +25,7 @@ export async function registerUser(req: Request, res: Response) {
       email.toLowerCase(),
     ]);
     if (exists.rows[0]) {
-      throw new Error('User with this email already exists.');
+      throw new Error('User with this email already exists !');
     }
 
     // Create user
@@ -36,10 +36,15 @@ export async function registerUser(req: Request, res: Response) {
 
     const userData = createdUserData.rows[0];
     if (!userData) {
-      throw new Error('Error has occurred while creating user. Please try again.');
+      throw new Error('Error has occurred while creating user. Please try again !');
     }
 
-    const tokenData = { id: userData.id, userName: userData.username, email: userData.email };
+    const tokenData = {
+      id: userData.id,
+      userName: userData.username,
+      email: userData.email,
+      hashedPassword: hashedPassword,
+    };
     const token = jwt.sign(tokenData, process.env.JWT_SECRET!);
 
     const returnData = {
@@ -50,11 +55,11 @@ export async function registerUser(req: Request, res: Response) {
       userName: userData.username,
       token,
     };
-    return res.status(201).json({ userData: returnData });
+    return res.status(201).json(returnData);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res.status(400).json({ error: error.message });
     }
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error !' });
   }
 }

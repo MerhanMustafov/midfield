@@ -1,4 +1,5 @@
-const BACKEND_BASE_URL = 'http://localhost:3050';
+export const CLIENT_BASE_URL = 'http://localhost:3000';
+export const BACKEND_BASE_URL = 'http://localhost:3050';
 
 // Football API
 export const URL_COUNTRIES_WITH_LEAGUES = `${BACKEND_BASE_URL}/api/countriesWithLeagues`;
