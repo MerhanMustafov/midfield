@@ -3,11 +3,11 @@ import { FiMenu } from 'react-icons/fi';
 import { useVisibilityState } from '@/contexts/visibility';
 import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
-import { getUser, removeUser } from '@/utils/user.utils';
+import { getLocalStorageUser, removeLocalStorageUser } from '@/utils/user.utils';
 
 export default function Navigation() {
   const router = useRouter();
-  const user = getUser();
+  const user = getLocalStorageUser();
 
   const {
     navMobile: { showNavMobile, toggleNavMobile },
@@ -27,7 +27,7 @@ export default function Navigation() {
   };
 
   const handleSignOut = () => {
-    removeUser();
+    removeLocalStorageUser();
     closeDropDown();
     redirect('/');
   };

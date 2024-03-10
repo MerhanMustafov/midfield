@@ -20,6 +20,7 @@ import {
 import { signUpValidateSchema } from './signUp.validate.schema';
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 import { useRouter } from 'next/navigation';
+import { setLocalStorageUser } from '@/utils/user.utils';
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -49,9 +50,9 @@ const SignUp: React.FC = () => {
         setServerError(data.error);
         return;
       }
-      const resData = await res.json();
-      localStorage.setItem('midfieldUser', JSON.stringify(resData));
 
+      const resData = await res.json();
+      setLocalStorageUser(resData);
       setServerError(null);
       router.push('/');
     },

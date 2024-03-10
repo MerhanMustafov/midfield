@@ -27,7 +27,12 @@ export async function loginUser(req: Request, res: Response) {
     if (!isPasswordCorrect) {
       throw new Error('Password is incorrect.');
     }
-    const tokenData = { id: userData.id, userName: userData.username, email: userData.email };
+    const tokenData = {
+      id: userData.id,
+      userName: userData.username,
+      email: userData.email,
+      hashedPassword: userData.password,
+    };
     const token = jwt.sign(tokenData, process.env.JWT_SECRET!);
 
     const returnData = {
@@ -39,7 +44,7 @@ export async function loginUser(req: Request, res: Response) {
       token,
     };
 
-    return res.status(201).json({ userData: returnData });
+    return res.status(200).json({ userData: returnData });
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res.status(400).json({ error: error.message });

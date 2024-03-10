@@ -2,15 +2,39 @@
 import React, { useState } from 'react';
 import { SIGN_IN_FORM_NAME, EMAIL_INPUT_ID, EMAIL_LABEL, PASSWORD_ID, PASSWORD_LABEL } from './signIn.constants';
 import CustomInput from '@/components/common/Inputs/CustomInput';
+import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
+import { useRouter } from 'next/navigation';
+import { setLocalStorageUser } from '@/utils/user.utils';
 
 const SignIn: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.SyntheticEvent) => {
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(email, password);
+    const values = {
+      email,
+      password,
+    };
+
+    const res = await fetch(CLIENT_BASE_URL + '/api/post/signIn', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+    if (res.status !== 200) {
+      const data = await res.json();
+      setServerError(data.error);
+      return;
+    }
+    const resData = await res.json();
+    setLocalStorageUser(resData);
+    setServerError(null);
+    router.push('/');
   };
   return (
     <div className="flex flex-col items-center gap-8 px-4">
