@@ -91,14 +91,26 @@ const FixturesClient: React.FC<FixturesProps> = ({ fixtures }) => {
   console.log(fixtures, ' asdas');
 
   return (
-    <div>
+    <div className="mx-4 border-2 border-red-600">
       {Object.entries(fixtures).map(([countryName, values]) => {
         return (
-          <div key={JSON.stringify(values)}>
-            <h2>{countryName}</h2>
-            {Object.entries(values).map(([leagueName, leagueData]) => (
-              <div key={leagueData.leagueInfo.id}>
+          <div key={JSON.stringify(values)} className="shadow-sm shadow-black">
+            <h2 className="text-xl tracking-wide">{countryName}</h2>
+            {Object.entries(values).map(([leagueName, league]) => (
+              <div key={league.leagueInfo.id}>
                 <h3>{leagueName}</h3>
+                {league.leagueData.map((f) => (
+                  <div key={f.fixture.id}>
+                    <div className="flex gap-2">
+                      <span>{f.goals.home}</span>
+                      <div>{f.teams.home.name}</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <span>{f.goals.away}</span>
+                      <div>{f.teams.away.name}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
