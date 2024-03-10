@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
-import SearchInput from '@/components/common/SearchInput';
+import SearchInput from '@/components/common/Inputs/SearchInput';
 import Country from '@/components/sections/CountriesAndLeagues/Country';
 
 import { useVisibilityState } from '@/contexts/visibility';
