@@ -9,7 +9,7 @@ type User = {
   token: string;
 };
 export const getUser = (): User | null => {
-  if (window) {
+  if (typeof window !== 'undefined') {
     const user = window.localStorage.getItem('midfieldUser');
     return user ? JSON.parse(user) : null;
   }
@@ -17,7 +17,7 @@ export const getUser = (): User | null => {
 };
 
 export const removeUser = () => {
-  if (window) {
+  if (typeof window !== 'undefined') {
     window.localStorage.removeItem('midfieldUser');
   }
 };

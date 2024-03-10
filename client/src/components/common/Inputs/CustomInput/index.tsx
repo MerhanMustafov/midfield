@@ -1,26 +1,13 @@
-import React, { useRef, useMemo, useState } from 'react';
-
-interface InputProps {
+import React, { useMemo, useRef, useState } from 'react';
+type CustomInputProps = {
   inputType?: string;
   labelTxt: string;
   inputFieldId: string;
   value: string;
-  error: string | undefined;
-  touched: boolean | undefined;
-  formikHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  formikHandleFocus: (fieldId: string, touched: boolean) => void;
-}
-
-const Input: React.FC<InputProps> = ({
-  touched,
-  inputType,
-  value,
-  error,
-  formikHandleChange,
-  formikHandleFocus,
-  labelTxt,
-  inputFieldId,
-}) => {
+  error?: string;
+  changeHandler: React.Dispatch<React.SetStateAction<string>>;
+};
+const CustomInput: React.FC<CustomInputProps> = ({ changeHandler, inputFieldId, labelTxt, value, inputType }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -29,12 +16,10 @@ const Input: React.FC<InputProps> = ({
   const handleClick = () => {
     setIsFocused(true);
     if (inputRef.current) inputRef.current.focus();
-    formikHandleFocus(inputFieldId, true);
   };
 
   const handleBlur = () => {
     setIsFocused(false);
-    formikHandleFocus(inputFieldId, true);
   };
 
   return (
@@ -46,23 +31,18 @@ const Input: React.FC<InputProps> = ({
           {labelTxt}
         </label>
         <input
-          type={inputType || 'text'}
+          type={inputType ?? 'text'}
           ref={inputRef}
           id={inputFieldId}
           name={inputFieldId}
           value={value}
-          onChange={formikHandleChange}
+          onChange={(e) => changeHandler(e.target.value)}
           onBlur={handleBlur}
           className="border-2 border-emerald-950 px-4 py-2 text-lg outline-none focus:border-2 focus:border-transparent"
         />
       </div>
-      {touched && error ? (
-        <p className="text-sm  text-red-600">{error}</p>
-      ) : (
-        <div className="text-sm text-transparent">Text</div>
-      )}
     </div>
   );
 };
 
-export default Input;
+export default CustomInput;

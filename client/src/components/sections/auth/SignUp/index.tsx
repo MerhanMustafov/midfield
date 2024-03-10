@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Input from '@/components/common/Input';
+import FormikValidateInput from '@/components/common/Inputs/FormikValidateInput';
 import { useFormik } from 'formik';
 import {
   SIGN_UP_FORM_NAME,
@@ -63,7 +63,7 @@ const SignUp: React.FC = () => {
       <form onSubmit={formik.handleSubmit} className="mx-auto flex w-[90%] flex-col gap-8">
         <div className="box-border flex flex-col gap-5">
           <div className="flex flex-col  gap-5">
-            <Input
+            <FormikValidateInput
               labelTxt={FIRST_NAME_LABEL}
               inputFieldId={FIRST_NAME_INPUT_ID}
               value={formik.values[FIRST_NAME_INPUT_ID]}
@@ -72,7 +72,7 @@ const SignUp: React.FC = () => {
               formikHandleChange={formik.handleChange}
               formikHandleFocus={formik.setFieldTouched}
             />
-            <Input
+            <FormikValidateInput
               labelTxt={LAST_NAME_LABEL}
               inputFieldId={LAST_NAME_INPUT_ID}
               value={formik.values[LAST_NAME_INPUT_ID]}
@@ -82,7 +82,7 @@ const SignUp: React.FC = () => {
               formikHandleFocus={formik.setFieldTouched}
             />
           </div>
-          <Input
+          <FormikValidateInput
             labelTxt={EMAIL_LABEL}
             inputFieldId={EMAIL_INPUT_ID}
             value={formik.values[EMAIL_INPUT_ID]}
@@ -91,7 +91,7 @@ const SignUp: React.FC = () => {
             formikHandleChange={formik.handleChange}
             formikHandleFocus={formik.setFieldTouched}
           />
-          <Input
+          <FormikValidateInput
             labelTxt={USER_NAME_LABEL}
             inputFieldId={USER_NAME_ID}
             value={formik.values[USER_NAME_ID]}
@@ -100,7 +100,7 @@ const SignUp: React.FC = () => {
             formikHandleChange={formik.handleChange}
             formikHandleFocus={formik.setFieldTouched}
           />
-          <Input
+          <FormikValidateInput
             labelTxt={PASSWORD_LABEL}
             inputType="password"
             inputFieldId={PASSWORD_ID}
@@ -110,7 +110,7 @@ const SignUp: React.FC = () => {
             formikHandleChange={formik.handleChange}
             formikHandleFocus={formik.setFieldTouched}
           />
-          <Input
+          <FormikValidateInput
             labelTxt={REPEAT_PASSWORD_LABEL}
             inputType="password"
             inputFieldId={REPEAT_PASSWORD_ID}
