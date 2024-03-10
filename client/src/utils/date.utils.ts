@@ -1,5 +1,3 @@
-'use client';
-
 export const getTodayDate = () => {
   const date = new Date();
   const year = date.getFullYear();
