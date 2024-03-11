@@ -30,7 +30,7 @@ export async function registerUser(req: Request, res: Response) {
 
     // Create user
     const createdUserData = await pgClient.query(
-      'INSERT INTO users(userName, email, firstName, lastName, password ) VALUES($1, $2, $3, $4,$5) RETURNING *',
+      'INSERT INTO users(user_name, email, first_name, last_name, password ) VALUES($1, $2, $3, $4,$5) RETURNING *',
       [userName, email, firstName, lastName, hashedPassword],
     );
 
@@ -41,18 +41,17 @@ export async function registerUser(req: Request, res: Response) {
 
     const tokenData = {
       id: userData.id,
-      userName: userData.username,
+      userName: userData.user_name,
       email: userData.email,
       hashedPassword: hashedPassword,
     };
     const token = jwt.sign(tokenData, process.env.JWT_SECRET!);
 
     const returnData = {
-      id: userData.id,
       email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      userName: userData.username,
+      firstName: userData.first_name,
+      lastName: userData.last_name,
+      userName: userData.user_name,
       token,
     };
     return res.status(201).json(returnData);
