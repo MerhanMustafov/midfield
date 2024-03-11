@@ -1,8 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 import SearchInput from '@/components/common/Inputs/SearchInput';
 import Country from '@/components/sections/CountriesAndLeagues/Country';
+import { filterObjectByKey } from '@/utils/filter/filterObjectByKey.utils';
+import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 
 import { useVisibilityState } from '@/contexts/visibility';
 import { CgCloseR } from 'react-icons/cg';
@@ -18,19 +20,13 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
   const [selectedCountry, setSelectedCountry] = React.useState<string | null>(null);
   const [searchInput, setSearchInput] = React.useState<string>('');
 
-  useEffect(() => {
-    const timeOutID = setTimeout(() => {
-      const filtered = Object.entries(props.countriesAndLeaguesData).reduce((acc, [key, value]) => {
-        if (key.toLowerCase().startsWith(searchInput.toLowerCase())) {
-          acc[key] = value;
-        }
-        return acc;
-      }, {} as CountryDataType);
-      setFilteredData(Object.keys(filtered).length > 0 ? filtered : props.countriesAndLeaguesData);
-    }, 700);
-
-    return () => clearTimeout(timeOutID);
+  const filterCountriesCb = useCallback(() => {
+    const filtered = filterObjectByKey(props.countriesAndLeaguesData, searchInput);
+    const isFiltered = Object.keys(filtered).length > 0;
+    setFilteredData(isFiltered ? filtered : props.countriesAndLeaguesData);
   }, [searchInput, props.countriesAndLeaguesData]);
+
+  useDebounceEffect(filterCountriesCb, 700, [searchInput]);
 
   const handleCountryClick = (country: string | null) => {
     const isClickedCurrentCountry = selectedCountry === country;

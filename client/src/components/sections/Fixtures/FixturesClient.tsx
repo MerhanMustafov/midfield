@@ -1,6 +1,9 @@
 'use client';
-import { getTodayDate } from '@/utils/date.utils';
-import React, { useState } from 'react';
+import { useDebounceEffect } from '@/hooks/useDebounceEffect';
+// import { getTodayDate } from '@/utils/date.utils';
+import { filterObjectByKey } from '@/utils/filter/filterObjectByKey.utils';
+import React, { useCallback, useState } from 'react';
+import SearchInput from '@/components/common/Inputs/SearchInput';
 
 interface Fixture {
   fixture: {
@@ -86,36 +89,50 @@ interface FixturesProps {
 }
 
 const FixturesClient: React.FC<FixturesProps> = ({ fixtures }) => {
-  const [date] = useState<string>(getTodayDate());
+  const [filteredData, setFilteredData] = useState<DataReturnType>(fixtures);
+  const [searchInput, setSearchInput] = useState<string>('');
+  // const [date] = useState<string>(getTodayDate());
 
-  console.log(fixtures, ' asdas');
+  const filterFixturesCb = useCallback(() => {
+    const filtered = filterObjectByKey(fixtures, searchInput);
+    const isFiltered = Object.keys(filtered).length > 0;
+    setFilteredData(isFiltered ? filtered : fixtures);
+  }, [searchInput, fixtures]);
+
+  useDebounceEffect(filterFixturesCb, 700, [searchInput]);
 
   return (
-    <div className="mx-4 border-2 border-red-600">
-      {Object.entries(fixtures).map(([countryName, values]) => {
-        return (
-          <div key={JSON.stringify(values)} className="shadow-sm shadow-black">
-            <h2 className="text-xl tracking-wide">{countryName}</h2>
-            {Object.entries(values).map(([leagueName, league]) => (
-              <div key={league.leagueInfo.id}>
-                <h3>{leagueName}</h3>
-                {league.leagueData.map((f) => (
-                  <div key={f.fixture.id}>
-                    <div className="flex gap-2">
-                      <span>{f.goals.home}</span>
-                      <div>{f.teams.home.name}</div>
+    <div className="mx-4 flex flex-col gap-4">
+      <div>
+        <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} />
+      </div>
+      {/* border-2 border-red-600 */}
+      <div>
+        {Object.entries(filteredData).map(([countryName, values]) => {
+          return (
+            <div key={JSON.stringify(values)} className="shadow-sm shadow-black">
+              <h2 className="text-xl tracking-wide">{countryName}</h2>
+              {Object.entries(values).map(([leagueName, league]) => (
+                <div key={league.leagueInfo.id}>
+                  <h3>{leagueName}</h3>
+                  {league.leagueData.map((f) => (
+                    <div key={f.fixture.id}>
+                      <div className="flex gap-2">
+                        <span>{f.goals.home}</span>
+                        <div>{f.teams.home.name}</div>
+                      </div>
+                      <div className="flex gap-2">
+                        <span>{f.goals.away}</span>
+                        <div>{f.teams.away.name}</div>
+                      </div>
                     </div>
-                    <div className="flex gap-2">
-                      <span>{f.goals.away}</span>
-                      <div>{f.teams.away.name}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        );
-      })}
+                  ))}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
