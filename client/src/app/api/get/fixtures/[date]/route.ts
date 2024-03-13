@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest, { params }: { params: { date: string } }) => {
   const { date } = params;
-  console.log(date);
 
   try {
     const res = await fetch(BACKEND_BASE_URL + `/api/fixtures/${date}`);

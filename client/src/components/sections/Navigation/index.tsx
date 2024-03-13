@@ -1,9 +1,10 @@
 'use client';
 import { FiMenu } from 'react-icons/fi';
 import { useVisibilityState } from '@/contexts/visibility';
-import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
 import { getLocalStorageUser, removeLocalStorageUser } from '@/utils/user.utils';
+import Modal from '@/components/layouts/Modal/Modal';
+import NavLink from '@/components/common/Links/NavLink/NavLink';
 
 export default function Navigation() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function Navigation() {
     closeDropDown();
     redirect('/');
   };
+
   return (
     <nav className="relative box-border bg-black-perl p-3 md:p-4">
       <div className=" flex w-max cursor-pointer flex-row flex-nowrap items-center gap-4 px-2">
@@ -51,32 +53,24 @@ export default function Navigation() {
           className="cursor-pointer text-2xl text-white"
         />
 
-        {showNavMobile && (
-          <div className="absolute left-0 right-0 top-[calc(100%)] z-10 flex flex-col items-center gap-4 overflow-x-auto bg-black-perl p-3  text-white">
-            {user && <div>profile</div>}
-            <Link onClick={closeDropDown} href="/">
-              Home
-            </Link>
+        <Modal onClose={closeDropDown} isOpen={showNavMobile}>
+          <div className="absolute left-0 right-0 top-[calc(100%)] z-30 flex flex-col items-center gap-4 overflow-x-auto bg-black-perl p-3  text-white">
+            {/* TODO: change profile link to /profile or something */}
+            {user && <NavLink label="Profile" href="/" cb={closeDropDown} />}
+            <NavLink label="Home" href="/" cb={closeDropDown} />
 
             {!user ? (
               <div className="my-4 flex w-full flex-col items-center gap-2 border-t-2 border-t-white p-2">
-                <Link onClick={closeDropDown} href="/auth/sign-in">
-                  Sign in
-                </Link>
-                <Link onClick={closeDropDown} href="/auth/sign-up">
-                  Sign up
-                </Link>
+                <NavLink label="Sign in" href="/auth/sign-in" cb={closeDropDown} />
+                <NavLink label="Sign up" href="/auth/sign-up" cb={closeDropDown} />
               </div>
             ) : (
-              <div
-                onClick={closeDropDown}
-                className="my-4 flex w-full flex-col items-center gap-2 border-t-2 border-t-white p-2"
-              >
-                <div onClick={handleSignOut}>Sign out</div>
+              <div className="my-4 flex w-full flex-col items-center gap-2 border-t-2 border-t-white p-2">
+                <NavLink label="Sign out" href="/" cb={handleSignOut} />
               </div>
             )}
           </div>
-        )}
+        </Modal>
       </div>
     </nav>
   );

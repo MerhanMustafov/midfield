@@ -42,7 +42,6 @@ export async function loginUser(req: Request, res: Response) {
       userName: userData.user_name,
       token,
     };
-    console.log('returnData', returnData);
 
     return res.status(200).json(returnData);
   } catch (error: unknown) {
