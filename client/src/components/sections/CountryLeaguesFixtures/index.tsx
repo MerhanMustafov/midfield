@@ -1,7 +1,7 @@
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 import React from 'react';
 import { getTodayDate } from '@/utils/date.utils';
-import FixturesClient from '@/components/sections/Fixtures/FixturesClient';
+import CountryLeaguesFixturesClient from '@/components/sections/CountryLeaguesFixtures/CountryLeaguesFixtures';
 
 const getFixtures = async () => {
   const date = getTodayDate();
@@ -14,10 +14,10 @@ const getFixtures = async () => {
   }
 };
 
-const Fixtures: React.FC = async () => {
+const CountryLeaguesFixtures: React.FC = async () => {
   const data = await getFixtures();
 
-  return <FixturesClient fixtures={data} />;
+  return <CountryLeaguesFixturesClient fixtures={data} />;
 };
 
-export default Fixtures;
+export default CountryLeaguesFixtures;

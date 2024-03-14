@@ -18,6 +18,10 @@ const config: Config = {
       boxShadow: {
         searchInput: '#1183d6 0px 0px 7px -1px',
       },
+
+      borderWidth: {
+        '1px': '1px',
+      },
     },
   },
   plugins: [],

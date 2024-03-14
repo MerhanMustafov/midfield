@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/sections/Navigation';
-import { VisibilityProvider } from '@/contexts/visibility';
+import { VisibilityProvider } from '@/contexts/visibility/visibility.context';
 import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

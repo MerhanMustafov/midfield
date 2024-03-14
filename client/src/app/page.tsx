@@ -1,6 +1,6 @@
 import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
 import HomeNavigation from '@/components/sections/HomeNavigation';
-import Fixtures from '@/components/sections/Fixtures';
+import CountryLeaguesFixtures from '@/components/sections/CountryLeaguesFixtures';
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
       <HomeNavigation />
       <div>
         <CountriesAndLeagues />
-        <Fixtures />
+        <CountryLeaguesFixtures />
       </div>
     </div>
   );

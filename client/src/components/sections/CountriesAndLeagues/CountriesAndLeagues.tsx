@@ -6,7 +6,7 @@ import Country from '@/components/sections/CountriesAndLeagues/Country';
 import { filterObjectByKey } from '@/utils/filter/filterObjectByKey.utils';
 import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 
-import { useVisibilityState } from '@/contexts/visibility';
+import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import { CgCloseR } from 'react-icons/cg';
 
 type CountriesAndLeaguesClientProps = {

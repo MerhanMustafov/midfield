@@ -1,6 +1,6 @@
 'use client';
 import { FiMenu } from 'react-icons/fi';
-import { useVisibilityState } from '@/contexts/visibility';
+import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import { redirect, useRouter } from 'next/navigation';
 import { getLocalStorageUser, removeLocalStorageUser } from '@/utils/user.utils';
 import Modal from '@/components/layouts/Modal/Modal';
