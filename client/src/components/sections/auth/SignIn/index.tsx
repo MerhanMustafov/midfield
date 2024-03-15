@@ -13,8 +13,6 @@ const SignIn: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { login } = appStore.user.actions;
-
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const values = {
@@ -35,7 +33,7 @@ const SignIn: React.FC = () => {
       return;
     }
     const resData = await res.json();
-    login(resData);
+    appStore.user.dispatch({ type: 'LOGIN', payload: resData });
     setServerError(null);
     router.push('/');
   };

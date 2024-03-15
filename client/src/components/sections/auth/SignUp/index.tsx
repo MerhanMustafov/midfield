@@ -27,8 +27,6 @@ const SignUp: React.FC = () => {
   const appStore = useAppStore();
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { register } = appStore.user.actions;
-
   const formik = useFormik({
     initialValues: {
       [FIRST_NAME_INPUT_ID]: '',
@@ -55,7 +53,7 @@ const SignUp: React.FC = () => {
       }
 
       const resData = await res.json();
-      register(resData);
+      appStore.user.dispatch({ type: 'REGISTER', payload: resData });
       setServerError(null);
       router.push('/');
     },

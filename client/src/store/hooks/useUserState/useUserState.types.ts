@@ -1,4 +1,5 @@
 import { User } from '@/types/user';
+import React from 'react';
 
 export type UserState = {
   user: User | null;
@@ -9,13 +10,9 @@ export type UserAction = {
   payload?: User | null;
 };
 
-export type UserStateHook = {
+export type UseUserStateHook = {
   user: {
     state: UserState;
-    actions: {
-      login: (user: User) => void;
-      register: (user: User) => void;
-      logout: () => void;
-    };
+    dispatch: React.Dispatch<UserAction>;
   };
 };
