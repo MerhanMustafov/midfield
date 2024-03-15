@@ -4,13 +4,16 @@ import { SIGN_IN_FORM_NAME, EMAIL_INPUT_ID, EMAIL_LABEL, PASSWORD_ID, PASSWORD_L
 import CustomInput from '@/components/common/Inputs/CustomInput';
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 import { useRouter } from 'next/navigation';
-import { setLocalStorageUser } from '@/utils/user.utils';
+import { useAppStore } from '@/store/store';
 
 const SignIn: React.FC = () => {
   const router = useRouter();
+  const appStore = useAppStore();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const { login } = appStore.user.actions;
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -32,7 +35,7 @@ const SignIn: React.FC = () => {
       return;
     }
     const resData = await res.json();
-    setLocalStorageUser(resData);
+    login(resData);
     setServerError(null);
     router.push('/');
   };

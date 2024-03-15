@@ -20,11 +20,14 @@ import {
 import { signUpValidateSchema } from './signUp.validate.schema';
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 import { useRouter } from 'next/navigation';
-import { setLocalStorageUser } from '@/utils/user.utils';
+import { useAppStore } from '@/store/store';
 
 const SignUp: React.FC = () => {
   const router = useRouter();
+  const appStore = useAppStore();
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const { register } = appStore.user.actions;
 
   const formik = useFormik({
     initialValues: {
@@ -52,7 +55,7 @@ const SignUp: React.FC = () => {
       }
 
       const resData = await res.json();
-      setLocalStorageUser(resData);
+      register(resData);
       setServerError(null);
       router.push('/');
     },

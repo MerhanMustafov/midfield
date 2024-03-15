@@ -1,12 +1,5 @@
 'use client';
-
-type User = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  token: string;
-};
+import { User } from '@/types/user';
 
 export const setLocalStorageUser = (user: User) => {
   if (typeof window !== 'undefined') {
@@ -17,7 +10,7 @@ export const setLocalStorageUser = (user: User) => {
 export const getLocalStorageUser = (): User | null => {
   if (typeof window !== 'undefined') {
     const user = window.localStorage.getItem('midfieldUser');
-    return user ? JSON.parse(user) : null;
+    return user ? JSON.parse(user) : undefined;
   }
   return null;
 };

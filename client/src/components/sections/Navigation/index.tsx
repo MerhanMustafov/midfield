@@ -2,13 +2,15 @@
 import { FiMenu } from 'react-icons/fi';
 import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import { redirect, useRouter } from 'next/navigation';
-import { getLocalStorageUser, removeLocalStorageUser } from '@/utils/user.utils';
 import Modal from '@/components/layouts/Modal/Modal';
 import NavLink from '@/components/common/Links/NavLink/NavLink';
+import { useAppStore } from '@/store/store';
 
 export default function Navigation() {
   const router = useRouter();
-  const user = getLocalStorageUser();
+  const appStore = useAppStore();
+  const { user } = appStore.user.state;
+  const { logout } = appStore.user.actions;
 
   const {
     navMobile: { showNavMobile, toggleNavMobile },
@@ -28,7 +30,7 @@ export default function Navigation() {
   };
 
   const handleSignOut = () => {
-    removeLocalStorageUser();
+    logout();
     closeDropDown();
     redirect('/');
   };
