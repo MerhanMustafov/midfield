@@ -1,4 +1,10 @@
 {
+  "workbench.colorTheme": "Monokai",
+  "workbench.tree.enableStickyScroll": false,
+
+  "editor.stickyScroll.enabled": false,
+  "editor.minimap.enabled": true,
+
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
 
@@ -34,6 +40,5 @@
   "vscode-color-picker.languages": ["javascript", "typescript"],
   "material-icon-theme.folders.associations": {
     "sections": "components"
-    // "sections": "../../../icons/icons8-ibooks.svg"
   }
 }
