@@ -3,7 +3,7 @@ import { MdSearch } from 'react-icons/md';
 
 type SearchInputProps = {
   searchInput: string;
-  setSearchInput: React.Dispatch<React.SetStateAction<string>>;
+  setSearchInput: (inputValue: string) => void;
 };
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {

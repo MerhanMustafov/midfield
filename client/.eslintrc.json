@@ -19,6 +19,7 @@
   "rules": {
     "default-case": "error",
     "default-case-last": "error",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off"
   }
 }

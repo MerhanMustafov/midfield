@@ -1,85 +1,16 @@
 'use client';
-import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 // import { getTodayDate } from '@/utils/date.utils';
-import { filterObjectByKey } from '@/utils/filter/filterObjectByKey.utils';
-import React, { useCallback, useState } from 'react';
-import SearchInput from '@/components/common/Inputs/SearchInput';
+import React, { useEffect } from 'react';
 import CountryNameBox from '@/components/common/Box/Country/CountryNameBox';
-import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import CountryLeaguesFixturesLayout from '@/components/layouts/CountryLeaguesFixturesLayout/CountryLeaguesFixturesLayout';
 import LeaguesLayout from '@/components/layouts/LeaguesLayout/LeaguesLayout';
+import FixturesLayout from '@/components/layouts/FixturesLayout/FixturesLayout';
 import LeagueNameBox from '@/components/common/Box/League/LeagueNameBox';
+import FixtureBox from '@/components/common/Box/Fixture/FixtureBox';
+import { League } from '@/types/league';
+import { Fixture } from '@/types/fixture';
+import { useAppStore } from '@/store/store';
 
-interface Fixture {
-  fixture: {
-    id: number;
-    referee: string | null;
-    timezone: string;
-    date: Date;
-    timestamp: number;
-    periods: {
-      first: number | null;
-      second: number | null;
-    };
-    venue: {
-      id: number | null;
-      name: string | null;
-      city: string | null;
-    };
-    status: {
-      long: string;
-      short: string;
-      elapsed: number | null;
-    };
-  };
-  league: League;
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: true;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: false;
-    };
-  };
-  goals: {
-    home: number | null;
-    away: number | null;
-  };
-  score: {
-    halftime: {
-      home: number | null;
-      away: number | null;
-    };
-    fulltime: {
-      home: number | null;
-      away: number | null;
-    };
-    extratime: {
-      home: number | null;
-      away: number | null;
-    };
-    penalty: {
-      home: number | null;
-      away: number | null;
-    };
-  };
-}
-
-interface League {
-  id: number;
-  name: string;
-  country: string;
-  logo: string;
-  flag: string;
-  season: number;
-  round: string;
-}
 interface DataReturnType {
   [countryName: string]: {
     [leagueName: string]: {
@@ -89,47 +20,78 @@ interface DataReturnType {
   };
 }
 
-interface FixturesProps {
+interface CountryLeaguesFixturesClientProps {
   fixtures: DataReturnType;
 }
 
-const CountryLeaguesFixturesClient: React.FC<FixturesProps> = ({ fixtures }) => {
-  const [filteredData, setFilteredData] = useState<DataReturnType>(fixtures);
-  const [searchInput, setSearchInput] = useState<string>('');
-  // const [date] = useState<string>(getTodayDate());
+const CountryLeaguesFixturesClient: React.FC<CountryLeaguesFixturesClientProps> = (props) => {
+  const appStore = useAppStore();
+  useEffect(() => {
+    appStore.countryLeaguesFixtures.dispatch({ type: 'INIT', payload: { countryLeagueFixtureData: props.fixtures } });
+  }, [props.fixtures]);
 
-  const {
-    country: { showLeaguesTo },
-  } = useVisibilityState();
+  const handleToggleLeagues = (countryName: string) => {
+    appStore.countryLeaguesFixtures.dispatch({
+      type: 'TOGGLE_SHOW_LEAGUES_TO',
+      payload: {
+        showLeaguesTo: {
+          [countryName]: !appStore.countryLeaguesFixtures.state.showLeaguesTo[countryName] ?? true,
+        },
+      },
+    });
+  };
 
-  const filterFixturesCb = useCallback(() => {
-    const filtered = filterObjectByKey(fixtures, searchInput);
-    const isFiltered = Object.keys(filtered).length > 0;
-    setFilteredData(isFiltered ? filtered : fixtures);
-  }, [searchInput, fixtures]);
-
-  useDebounceEffect(filterFixturesCb, 700, [searchInput]);
+  const handleToggleFixtures = (leagueName: string) => {
+    appStore.countryLeaguesFixtures.dispatch({
+      type: 'TOGGLE_SHOW_FIXTURES_TO',
+      payload: {
+        showFixturesTo: {
+          [leagueName]: !appStore.countryLeaguesFixtures.state.showFixturesTo[leagueName] ?? true,
+        },
+      },
+    });
+  };
 
   return (
     <div className="mx-4 flex flex-col gap-4">
-      {/* TODO: CREATE context for state and perform this 
-      operation of filtering there so that you can move the input in 
-      the HomeNavigation */}
-      <div className="sticky top-[53px] bg-white">
-        <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} />
-      </div>
       <div className="flex flex-col gap-4">
-        {Object.entries(filteredData).map(([countryName, values]) => {
-          const showLeagues = showLeaguesTo[countryName];
-
+        {Object.entries(
+          appStore.countryLeaguesFixtures.state.filteredData ??
+            appStore.countryLeaguesFixtures?.state?.countryLeagueFixtureData ??
+            props.fixtures,
+        ).map(([countryName, values], i) => {
           return (
-            <CountryLeaguesFixturesLayout key={JSON.stringify(values)}>
-              <CountryNameBox countryName={countryName} />
-              {showLeagues && (
+            <CountryLeaguesFixturesLayout key={JSON.stringify(`${countryName}_${values}_${i}`)}>
+              <CountryNameBox countryName={countryName} handleToggleLeagues={handleToggleLeagues} />
+              {appStore.countryLeaguesFixtures.state.showLeaguesTo[countryName] && (
                 <LeaguesLayout>
-                  {Object.entries(values).map(([leagueName, leagueData]) => {
-                    return <LeagueNameBox key={JSON.stringify(leagueData)} leagueName={leagueName} />;
-                  })}
+                  {Object.entries(values).map(([leagueName, leagueValues], i) => (
+                    <div className="flex flex-col gap-4" key={JSON.stringify(`${leagueName}_${leagueValues}_${i}`)}>
+                      <LeagueNameBox leagueName={leagueName} handleToggleFixtures={handleToggleFixtures} />
+
+                      {appStore.countryLeaguesFixtures.state.showFixturesTo[leagueName] && (
+                        <FixturesLayout>
+                          {leagueValues.leagueData.map((fixtureData, i) => (
+                            <FixtureBox
+                              key={JSON.stringify(`${fixtureData}_${i}`)}
+                              homeTeam={{
+                                name: fixtureData.teams.home.name,
+                                goals: fixtureData.goals.home,
+                                logo: fixtureData.teams.home.logo,
+                              }}
+                              awayTeam={{
+                                name: fixtureData.teams.away.name,
+                                goals: fixtureData.goals.away,
+                                logo: fixtureData.teams.away.logo,
+                              }}
+                              fixtureData={fixtureData.fixture.date}
+                              status={fixtureData.fixture.status.short}
+                            />
+                          ))}
+                        </FixturesLayout>
+                      )}
+                    </div>
+                  ))}
                 </LeaguesLayout>
               )}
             </CountryLeaguesFixturesLayout>
