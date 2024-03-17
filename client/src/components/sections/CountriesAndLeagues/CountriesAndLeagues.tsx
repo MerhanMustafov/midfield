@@ -1,48 +1,41 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 import SearchInput from '@/components/common/Inputs/SearchInput';
 import Country from '@/components/sections/CountriesAndLeagues/Country';
-import { filterObjectByKey } from '@/utils/filter/filterObjectByKey.utils';
-import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 
-import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import { CgCloseR } from 'react-icons/cg';
+import { useAppStore } from '@/store/store';
 
 type CountriesAndLeaguesClientProps = {
   countriesAndLeaguesData: CountryDataType;
 };
 const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (props) => {
-  const {
-    countriesAndLeagues: { showCountriesAndLeagues, toggleCountriesAndLeagues },
-  } = useVisibilityState();
-  const [filteredData, setFilteredData] = React.useState<CountryDataType>(props.countriesAndLeaguesData);
-  const [selectedCountry, setSelectedCountry] = React.useState<string | null>(null);
-  const [searchInput, setSearchInput] = React.useState<string>('');
+  const appStore = useAppStore();
 
-  const filterCountriesCb = useCallback(() => {
-    const filtered = filterObjectByKey(props.countriesAndLeaguesData, searchInput);
-    const isFiltered = Object.keys(filtered).length > 0;
-    setFilteredData(isFiltered ? filtered : props.countriesAndLeaguesData);
-  }, [searchInput, props.countriesAndLeaguesData]);
-
-  useDebounceEffect(filterCountriesCb, 700, [searchInput]);
+  useEffect(() => {
+    appStore.cl.dispatch({ type: 'INIT', payload: { clData: props.countriesAndLeaguesData } });
+  }, []);
 
   const handleCountryClick = (country: string | null) => {
-    const isClickedCurrentCountry = selectedCountry === country;
-    setSelectedCountry(isClickedCurrentCountry ? null : country);
+    if (appStore.cl.state.selectedCountry === country) {
+      appStore.cl.dispatch({ type: 'SET_SELECTED_COUNTRY', payload: { selectedCountry: null } });
+      return;
+    }
+    appStore.cl.dispatch({ type: 'SET_SELECTED_COUNTRY', payload: { selectedCountry: country } });
   };
 
   const handleClose = () => {
-    toggleCountriesAndLeagues(false);
-    setSelectedCountry(null);
-    setSearchInput('');
+    appStore.cl.dispatch({ type: 'RESET' });
   };
 
-  if (!showCountriesAndLeagues) {
+  const handleSearchInputChange = (inputValue: string) => {
+    appStore.cl.dispatch({ type: 'SET_SEARCH_INPUT', payload: { searchInput: inputValue } });
+  };
+
+  if (!appStore.cl.state.showClMobile) {
     return null;
   }
-
   return (
     <div
       id="countriesAndLeaguesElementId"
@@ -54,11 +47,13 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
             <CgCloseR onClick={handleClose} className="cursor-pointer text-2xl" />
           </div>
           <div className="sticky top-auto flex-col items-center justify-center px-2 py-2 ">
-            <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} />
+            <SearchInput searchInput={appStore.cl.state.searchInput} setSearchInput={handleSearchInputChange} />
           </div>
         </div>
         <div className="mx-auto w-[90%] ">
-          {Object.values(filteredData).map((data) => {
+          {Object.values(
+            appStore.cl.state.clFilteredData ?? appStore.cl.state.clData ?? props.countriesAndLeaguesData,
+          ).map((data) => {
             const key = JSON.stringify(data);
             return (
               <Country
@@ -66,8 +61,10 @@ const CountriesAndLeaguesClient: React.FC<CountriesAndLeaguesClientProps> = (pro
                 countryName={data.countryName}
                 countryCode={data.countryCode}
                 countryFlag={data.countryFlag}
-                selectedCountry={selectedCountry}
-                filteredData={filteredData}
+                selectedCountry={appStore.cl.state.selectedCountry}
+                filteredData={
+                  appStore.cl.state.clFilteredData ?? appStore.cl.state.clData ?? props.countriesAndLeaguesData
+                }
                 clickHandler={handleCountryClick}
               />
             );

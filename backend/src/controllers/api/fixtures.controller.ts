@@ -1,5 +1,7 @@
 import { customAxios } from '@configs/axios.configs';
 import { Request, Response } from 'express';
+import sortCountriesOrder from '@constants/sort/sortCountriesOrder.constants';
+import sortLeaguesOrder from '@constants/sort/sortLeaguesOrder.constants';
 import { customStringComparator } from '@utils/sort.utils';
 
 interface IFixture {
@@ -114,12 +116,16 @@ export async function getFixturesByDate(req: Request, res: Response) {
     }, {} as IDataReturnType);
 
     const sortedData = Object.keys(modifiedData)
-      .sort((countryName1, countryName2) => customStringComparator(countryName1, countryName2))
+      .sort((countryName1, countryName2) =>
+        customStringComparator(countryName1, countryName2, { customArr: sortCountriesOrder }),
+      )
       .reduce((acc, countryName) => {
         return {
           ...acc,
           [countryName]: Object.keys(modifiedData[countryName])
-            .sort((leagueName1, leagueName2) => customStringComparator(leagueName1, leagueName2))
+            .sort((leagueName1, leagueName2) =>
+              customStringComparator(leagueName1, leagueName2, { customArr: sortLeaguesOrder }),
+            )
             .reduce(
               (accLeagues, leagueName) => {
                 return {

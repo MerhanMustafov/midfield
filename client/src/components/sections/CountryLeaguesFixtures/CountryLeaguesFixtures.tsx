@@ -85,7 +85,10 @@ const CountryLeaguesFixturesClient: React.FC<CountryLeaguesFixturesClientProps> 
                                 logo: fixtureData.teams.away.logo,
                               }}
                               fixtureData={fixtureData.fixture.date}
-                              status={fixtureData.fixture.status.short}
+                              status={{
+                                long: fixtureData.fixture.status.long,
+                                short: fixtureData.fixture.status.short,
+                              }}
                             />
                           ))}
                         </FixturesLayout>

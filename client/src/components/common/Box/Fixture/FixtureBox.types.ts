@@ -7,5 +7,8 @@ export type FixtureBoxProps = {
   homeTeam: Team;
   awayTeam: Team;
   fixtureData: Date;
-  status: string;
+  status: {
+    short: string;
+    long: string;
+  };
 };

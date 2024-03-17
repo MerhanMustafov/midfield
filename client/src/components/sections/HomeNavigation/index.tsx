@@ -1,5 +1,4 @@
 'use client';
-import { useVisibilityState } from '@/contexts/visibility/visibility.context';
 import { IoCalendarOutline } from 'react-icons/io5';
 import React from 'react';
 import SearchInput from '@/components/common/Inputs/SearchInput';
@@ -7,12 +6,10 @@ import { useAppStore } from '@/store/store';
 
 const HomeNavigation: React.FC = () => {
   const appStore = useAppStore();
-  const {
-    countriesAndLeagues: { toggleCountriesAndLeagues },
-  } = useVisibilityState();
 
   const handleToggleCountriesAndLeagues = () => {
-    toggleCountriesAndLeagues();
+    // toggleCountriesAndLeagues();
+    appStore.cl.dispatch({ type: 'TOGGLE_MOBILE' });
   };
   const handleSearchInputChange = (inputValue: string) => {
     appStore.countryLeaguesFixtures.dispatch({ type: 'SET_SEARCH_INPUT', payload: { searchInput: inputValue } });
