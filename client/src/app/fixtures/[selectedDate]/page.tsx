@@ -1,13 +1,12 @@
 import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
 import HomeNavigation from '@/components/sections/HomeNavigation';
 import CountryLeaguesFixtures from '@/components/sections/CountryLeaguesFixtures/CountryLeaguesFixtures';
+import { FixturesByDatePageProps } from './page.types';
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
-import { getTodayDate } from '@/utils/date.utils';
 
-const getFixtures = async () => {
-  const date = getTodayDate();
+const getFixtures = async (date: string) => {
   try {
-    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date.dateQuery}`);
+    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date}`);
     const resData = await res.json();
     return resData;
   } catch (error: unknown) {
@@ -15,8 +14,8 @@ const getFixtures = async () => {
   }
 };
 
-export default async function HomePage() {
-  const fixtures = await getFixtures();
+export default async function FixturesByDate({ params }: FixturesByDatePageProps) {
+  const fixtures = await getFixtures(params.selectedDate);
 
   return (
     <div className="flex min-h-full flex-col gap-4">

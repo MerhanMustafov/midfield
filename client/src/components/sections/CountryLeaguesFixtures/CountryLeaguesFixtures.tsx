@@ -24,7 +24,7 @@ interface CountryLeaguesFixturesClientProps {
   fixtures: DataReturnType;
 }
 
-const CountryLeaguesFixturesClient: React.FC<CountryLeaguesFixturesClientProps> = (props) => {
+const CountryLeaguesFixtures: React.FC<CountryLeaguesFixturesClientProps> = (props) => {
   const appStore = useAppStore();
   useEffect(() => {
     appStore.countryLeaguesFixtures.dispatch({ type: 'INIT', payload: { countryLeagueFixtureData: props.fixtures } });
@@ -105,4 +105,4 @@ const CountryLeaguesFixturesClient: React.FC<CountryLeaguesFixturesClientProps> 
   );
 };
 
-export default CountryLeaguesFixturesClient;
+export default CountryLeaguesFixtures;

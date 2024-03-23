@@ -1,7 +1,7 @@
 'use client';
 import { IoReload } from 'react-icons/io5';
 
-export default function Error() {
+export default function HomeError() {
   const handleReset = () => {
     window.location.reload();
   };
