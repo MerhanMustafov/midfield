@@ -5,6 +5,8 @@ export const reducer = (state: CountryLeaguesFixturesState = initialState, actio
     return {
       ...state,
       countryLeagueFixtureData: action?.payload?.countryLeagueFixtureData || null,
+      filteredData: action?.payload?.countryLeagueFixtureData || null,
+      searchInput: '',
     } as CountryLeaguesFixturesState;
   }
   if (action.type === 'SET_FILTERED_DATA') {
