@@ -6,7 +6,7 @@ import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 
 const getFixtures = async (date: string) => {
   try {
-    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date}`);
+    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date}`, { cache: 'no-cache' });
     const resData = await res.json();
     return resData;
   } catch (error: unknown) {

@@ -5,7 +5,7 @@ export const GET = async (request: NextRequest, { params }: { params: { date: st
   const { date } = params;
 
   try {
-    const res = await fetch(BACKEND_BASE_URL + `/api/fixtures/${date}`, { cache: 'no-store' });
+    const res = await fetch(BACKEND_BASE_URL + `/api/fixtures/${date}`, { cache: 'no-cache' });
     const resData = await res.json();
 
     return NextResponse.json(resData, { status: 200 });
