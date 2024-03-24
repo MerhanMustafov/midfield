@@ -7,11 +7,23 @@ export type UseCalendarState = {
   year: number | string;
   month: MonthNumbersNormalType;
   day: NumberOfDaysInAMonthType;
+
+  selectedYear: number | string;
+  selectedMonth: MonthNumbersNormalType;
+  selectedDay: NumberOfDaysInAMonthType;
+
   selectedDate: string;
   calendarYearData: null | ReturnType<typeof getYearData>;
 };
 export type UseCalendarAction = {
-  type: 'INIT_CALENDAR_DATA' | 'TOGGLE_CALENDAR' | 'SET_YEAR' | 'SET_MONTH' | 'SET_DAY' | 'SET_SELECTED_DATE';
+  type:
+    | 'INIT_CALENDAR_DATA'
+    | 'TOGGLE_CALENDAR'
+    | 'SET_SELECTED_DATE_DATA'
+    | 'SET_YEAR'
+    | 'SET_MONTH'
+    | 'SET_DAY'
+    | 'SET_SELECTED_DATE';
   payload?: Partial<UseCalendarState>;
 };
 export type UseCalendarHook = {

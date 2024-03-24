@@ -5,42 +5,54 @@ export const reducer = (state: UseCalendarState = initialState, action: UseCalen
   if (action.type === 'TOGGLE_CALENDAR') {
     return {
       ...state,
-      toggle: action?.payload?.toggle || !state.toggle,
+      toggle: action?.payload?.toggle ?? !state.toggle,
     };
   }
 
   if (action.type === 'INIT_CALENDAR_DATA') {
     return {
       ...state,
-      calendarYearData: action?.payload?.calendarYearData || state.calendarYearData,
+      calendarYearData: action?.payload?.calendarYearData ?? state.calendarYearData,
+      year: state.selectedYear ?? state.year,
+      month: state.selectedMonth ?? state.month,
+      day: state.selectedDay ?? state.day,
+    };
+  }
+
+  if (action.type === 'SET_SELECTED_DATE_DATA') {
+    return {
+      ...state,
+      selectedYear: action?.payload?.selectedYear ?? state.selectedYear,
+      selectedMonth: action?.payload?.selectedMonth ?? state.selectedMonth,
+      selectedDay: action?.payload?.selectedDay ?? state.selectedDay,
     };
   }
 
   if (action.type === 'SET_YEAR') {
     return {
       ...state,
-      year: action?.payload?.year || state.year,
+      year: action?.payload?.year ?? state.year,
     };
   }
 
   if (action.type === 'SET_MONTH') {
     return {
       ...state,
-      month: action?.payload?.month || state.month,
+      month: action?.payload?.month ?? state.month,
     };
   }
 
   if (action.type === 'SET_DAY') {
     return {
       ...state,
-      day: action?.payload?.day || state.day,
+      day: action?.payload?.day ?? state.day,
     };
   }
 
   if (action.type === 'SET_SELECTED_DATE') {
     return {
       ...state,
-      selectedDate: action?.payload?.selectedDate || state.selectedDate,
+      selectedDate: action?.payload?.selectedDate ?? state.selectedDate,
     };
   }
 

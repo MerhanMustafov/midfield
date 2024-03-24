@@ -10,6 +10,7 @@ import FixtureBox from '@/components/common/Box/Fixture/FixtureBox';
 import { League } from '@/types/league';
 import { Fixture } from '@/types/fixture';
 import { useAppStore } from '@/store/store';
+import { MonthNumbersNormalType, NumberOfDaysInAMonthType } from '@/libs/calendar/month/month.types';
 
 interface DataReturnType {
   [countryName: string]: {
@@ -22,12 +23,26 @@ interface DataReturnType {
 
 interface CountryLeaguesFixturesClientProps {
   fixtures: DataReturnType;
+  selectedDate?: string;
 }
 
 const CountryLeaguesFixtures: React.FC<CountryLeaguesFixturesClientProps> = (props) => {
   const appStore = useAppStore();
   useEffect(() => {
     appStore.countryLeaguesFixtures.dispatch({ type: 'INIT', payload: { countryLeagueFixtureData: props.fixtures } });
+    if (props.selectedDate) {
+      const [y, m, d] = props.selectedDate.split('-');
+
+      appStore.calendar.dispatch({
+        type: 'SET_SELECTED_DATE_DATA',
+        payload: {
+          selectedYear: y,
+          selectedMonth: parseInt(m, 10) as MonthNumbersNormalType,
+          selectedDay: parseInt(d, 10) as NumberOfDaysInAMonthType,
+        },
+      });
+    }
+    appStore.calendar.dispatch({ type: 'TOGGLE_CALENDAR', payload: { toggle: false } });
   }, [props.fixtures]);
 
   const handleToggleLeagues = (countryName: string) => {
@@ -55,19 +70,23 @@ const CountryLeaguesFixtures: React.FC<CountryLeaguesFixturesClientProps> = (pro
   return (
     <div className="mx-4 flex flex-col gap-4">
       <div className="flex flex-col gap-4">
-        {Object.entries(props.fixtures)
-          .slice(0, 1)
+        {Object.entries(
+          appStore.countryLeaguesFixtures.state.filteredData ||
+            appStore.countryLeaguesFixtures.state.countryLeagueFixtureData ||
+            props.fixtures,
+        )
+          .slice(0, 10)
           .map(([countryName, values], i) => {
             return (
               <CountryLeaguesFixturesLayout key={JSON.stringify(`${countryName}_${values}_${i}`)}>
                 <CountryNameBox countryName={countryName} handleToggleLeagues={handleToggleLeagues} />
-                {props.fixtures[countryName] && (
+                {appStore.countryLeaguesFixtures.state.showLeaguesTo[countryName] && (
                   <LeaguesLayout>
                     {Object.entries(values).map(([leagueName, leagueValues], i) => (
                       <div className="flex flex-col gap-4" key={JSON.stringify(`${leagueName}_${leagueValues}_${i}`)}>
                         <LeagueNameBox leagueName={leagueName} handleToggleFixtures={handleToggleFixtures} />
 
-                        {props.fixtures[leagueName] && (
+                        {appStore.countryLeaguesFixtures.state.showFixturesTo[leagueName] && (
                           <FixturesLayout>
                             {leagueValues.leagueData.map((fixtureData, i) => (
                               <FixtureBox

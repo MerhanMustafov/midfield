@@ -22,7 +22,7 @@ export default async function FixturesByDate({ params }: FixturesByDatePageProps
       <HomeNavigation />
       <div>
         <CountriesAndLeagues />
-        <CountryLeaguesFixtures fixtures={fixtures} />
+        <CountryLeaguesFixtures selectedDate={params.selectedDate} fixtures={fixtures} />
       </div>
     </div>
   );

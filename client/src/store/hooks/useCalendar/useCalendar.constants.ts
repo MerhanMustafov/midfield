@@ -9,6 +9,9 @@ export const initialState: UseCalendarState = {
   year: todayData.getFullYear(),
   month: (todayData.getMonth() + 1) as MonthNumbersNormalType,
   day: todayData.getDate() as NumberOfDaysInAMonthType,
+  selectedYear: todayData.getFullYear(),
+  selectedMonth: (todayData.getMonth() + 1) as MonthNumbersNormalType,
+  selectedDay: todayData.getDate() as NumberOfDaysInAMonthType,
   selectedDate: dateQuery,
   calendarYearData: null,
 };
