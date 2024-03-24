@@ -9,6 +9,13 @@ export const reducer = (state: UseCalendarState = initialState, action: UseCalen
     };
   }
 
+  if (action.type === 'INIT_CALENDAR_DATA') {
+    return {
+      ...state,
+      calendarYearData: action?.payload?.calendarYearData || state.calendarYearData,
+    };
+  }
+
   if (action.type === 'SET_YEAR') {
     return {
       ...state,
