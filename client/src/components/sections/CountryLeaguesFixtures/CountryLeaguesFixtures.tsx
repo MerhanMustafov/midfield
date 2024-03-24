@@ -74,49 +74,47 @@ const CountryLeaguesFixtures: React.FC<CountryLeaguesFixturesClientProps> = (pro
           appStore.countryLeaguesFixtures.state.filteredData ||
             appStore.countryLeaguesFixtures.state.countryLeagueFixtureData ||
             props.fixtures,
-        )
-          .slice(0, 10)
-          .map(([countryName, values], i) => {
-            return (
-              <CountryLeaguesFixturesLayout key={JSON.stringify(`${countryName}_${values}_${i}`)}>
-                <CountryNameBox countryName={countryName} handleToggleLeagues={handleToggleLeagues} />
-                {appStore.countryLeaguesFixtures.state.showLeaguesTo[countryName] && (
-                  <LeaguesLayout>
-                    {Object.entries(values).map(([leagueName, leagueValues], i) => (
-                      <div className="flex flex-col gap-4" key={JSON.stringify(`${leagueName}_${leagueValues}_${i}`)}>
-                        <LeagueNameBox leagueName={leagueName} handleToggleFixtures={handleToggleFixtures} />
+        ).map(([countryName, values], i) => {
+          return (
+            <CountryLeaguesFixturesLayout key={JSON.stringify(`${countryName}_${values}_${i}`)}>
+              <CountryNameBox countryName={countryName} handleToggleLeagues={handleToggleLeagues} />
+              {appStore.countryLeaguesFixtures.state.showLeaguesTo[countryName] && (
+                <LeaguesLayout>
+                  {Object.entries(values).map(([leagueName, leagueValues], i) => (
+                    <div className="flex flex-col gap-4" key={JSON.stringify(`${leagueName}_${leagueValues}_${i}`)}>
+                      <LeagueNameBox leagueName={leagueName} handleToggleFixtures={handleToggleFixtures} />
 
-                        {appStore.countryLeaguesFixtures.state.showFixturesTo[leagueName] && (
-                          <FixturesLayout>
-                            {leagueValues.leagueData.map((fixtureData, i) => (
-                              <FixtureBox
-                                key={JSON.stringify(`${fixtureData}_${i}`)}
-                                homeTeam={{
-                                  name: fixtureData.teams.home.name,
-                                  goals: fixtureData.goals.home,
-                                  logo: fixtureData.teams.home.logo,
-                                }}
-                                awayTeam={{
-                                  name: fixtureData.teams.away.name,
-                                  goals: fixtureData.goals.away,
-                                  logo: fixtureData.teams.away.logo,
-                                }}
-                                fixtureData={fixtureData.fixture.date}
-                                status={{
-                                  long: fixtureData.fixture.status.long,
-                                  short: fixtureData.fixture.status.short,
-                                }}
-                              />
-                            ))}
-                          </FixturesLayout>
-                        )}
-                      </div>
-                    ))}
-                  </LeaguesLayout>
-                )}
-              </CountryLeaguesFixturesLayout>
-            );
-          })}
+                      {appStore.countryLeaguesFixtures.state.showFixturesTo[leagueName] && (
+                        <FixturesLayout>
+                          {leagueValues.leagueData.map((fixtureData, i) => (
+                            <FixtureBox
+                              key={JSON.stringify(`${fixtureData}_${i}`)}
+                              homeTeam={{
+                                name: fixtureData.teams.home.name,
+                                goals: fixtureData.goals.home,
+                                logo: fixtureData.teams.home.logo,
+                              }}
+                              awayTeam={{
+                                name: fixtureData.teams.away.name,
+                                goals: fixtureData.goals.away,
+                                logo: fixtureData.teams.away.logo,
+                              }}
+                              fixtureData={fixtureData.fixture.date}
+                              status={{
+                                long: fixtureData.fixture.status.long,
+                                short: fixtureData.fixture.status.short,
+                              }}
+                            />
+                          ))}
+                        </FixturesLayout>
+                      )}
+                    </div>
+                  ))}
+                </LeaguesLayout>
+              )}
+            </CountryLeaguesFixturesLayout>
+          );
+        })}
       </div>
     </div>
   );
