@@ -5,10 +5,9 @@ import { useAppStore } from '@/store/store';
 import { MonthNumbersNormalType, NumberOfDaysInAMonthType } from '@/libs/calendar/month/month.types';
 import { monthsShort } from '@/libs/calendar/month/month.constants';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+import { getDateStringQuery } from '@/utils/date.utils';
 
 const Calendar: React.FC = () => {
-  const router = useRouter();
   const appStore = useAppStore();
 
   const calendarData = getYearData(Number(appStore.calendar.state.year), 'Mon');
@@ -29,12 +28,11 @@ const Calendar: React.FC = () => {
       type: 'SET_SELECTED_DATE_DATA',
       payload: { selectedYear: year, selectedMonth: month, selectedDay: day },
     });
-
-    const dateMonth = month < 10 ? `0${month}` : month;
-    const dateDay = day < 10 ? `0${day}` : day;
-    const dateQuery = `${year}-${dateMonth}-${dateDay}`;
-    appStore.calendar.dispatch({ type: 'SET_SELECTED_DATE', payload: { selectedDate: dateQuery } });
-    router.push(`/fixtures/${dateQuery}`);
+    const dateStringQuery = getDateStringQuery(year, month, day);
+    appStore.calendar.dispatch({
+      type: 'SET_SELECTED_DATE_QUERY_STRING',
+      payload: { selectedDateQueryString: dateStringQuery },
+    });
   };
 
   const handleNextMonth = () => {
