@@ -1,5 +1,5 @@
 import React from 'react';
-import NameWithLogo from '@/components/common/NameWithLogo';
+import NameWithLogo from '@/components/client/common/NameWithLogo';
 
 interface LeagueProps {
   leagueId: number;

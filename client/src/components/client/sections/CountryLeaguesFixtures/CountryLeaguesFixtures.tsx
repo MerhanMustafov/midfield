@@ -1,12 +1,12 @@
 'use client';
 // import { getTodayDate } from '@/utils/date.utils';
 import React, { useEffect } from 'react';
-import CountryNameBox from '@/components/common/Box/Country/CountryNameBox';
-import CountryLeaguesFixturesLayout from '@/components/layouts/CountryLeaguesFixturesLayout/CountryLeaguesFixturesLayout';
-import LeaguesLayout from '@/components/layouts/LeaguesLayout/LeaguesLayout';
-import FixturesLayout from '@/components/layouts/FixturesLayout/FixturesLayout';
-import LeagueNameBox from '@/components/common/Box/League/LeagueNameBox';
-import FixtureBox from '@/components/common/Box/Fixture/FixtureBox';
+import CountryNameBox from '@/components/client/common/Box/Country/CountryNameBox';
+import CountryLeaguesFixturesLayout from '@/components/client/layouts/CountryLeaguesFixturesLayout/CountryLeaguesFixturesLayout';
+import LeaguesLayout from '@/components/client/layouts/LeaguesLayout/LeaguesLayout';
+import FixturesLayout from '@/components/client/layouts/FixturesLayout/FixturesLayout';
+import LeagueNameBox from '@/components/client/common/Box/League/LeagueNameBox';
+import FixtureBox from '@/components/client/common/Box/Fixture/FixtureBox';
 import { League } from '@/types/league';
 import { Fixture } from '@/types/fixture';
 import { useAppStore } from '@/store/store';
@@ -42,7 +42,10 @@ const CountryLeaguesFixtures: React.FC<CountryLeaguesFixturesClientProps> = (pro
         },
       });
     }
-    appStore.calendar.dispatch({ type: 'TOGGLE_CALENDAR', payload: { toggle: false } });
+    appStore.calendar.dispatch({
+      type: 'SET_SELECTED_DATE_QUERY_STRING',
+      payload: { selectedDateQueryString: props.selectedDate },
+    });
   }, [props.fixtures]);
 
   const handleToggleLeagues = (countryName: string) => {

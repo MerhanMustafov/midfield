@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import NameWithLogo from '@/components/common/NameWithLogo';
-import League from '@/components/sections/CountriesAndLeagues/League';
+import NameWithLogo from '@/components/client/common/NameWithLogo';
+import League from '@/components/client/sections/CountriesAndLeagues/League';
 import { CountryDataType } from '@/types/countriesAndLeagues';
 
 interface CountryProps {
@@ -47,12 +47,3 @@ const Country: React.FC<CountryProps> = (props) => {
 };
 
 export default Country;
-
-{
-  /*   Object.values(props.filteredData[props.selectedCountry].leagues).map((data) => {
-              const key = data.leagueId;
-              return (
-                <League key={key} leagueName={data.leagueName} leagueId={data.leagueId} leagueLogo={data.leagueLogo} />
-              );
-            })} */
-}

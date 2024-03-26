@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import FormikValidateInput from '@/components/common/Inputs/FormikValidateInput';
+import FormikValidateInput from '@/components/client/common/Inputs/FormikValidateInput';
 import { useFormik } from 'formik';
 import {
   SIGN_UP_FORM_NAME,

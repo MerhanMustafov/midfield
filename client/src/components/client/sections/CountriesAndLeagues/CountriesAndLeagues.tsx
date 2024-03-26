@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect } from 'react';
 import { CountryDataType } from '@/types/countriesAndLeagues';
-import SearchInput from '@/components/common/Inputs/SearchInput';
-import Country from '@/components/sections/CountriesAndLeagues/Country';
+import SearchInput from '@/components/client/common/Inputs/SearchInput';
+import Country from '@/components/client/sections/CountriesAndLeagues/Country';
 
 import { CgCloseR } from 'react-icons/cg';
 import { useAppStore } from '@/store/store';

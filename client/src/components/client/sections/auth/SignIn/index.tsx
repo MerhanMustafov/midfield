@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { SIGN_IN_FORM_NAME, EMAIL_INPUT_ID, EMAIL_LABEL, PASSWORD_ID, PASSWORD_LABEL } from './signIn.constants';
-import CustomInput from '@/components/common/Inputs/CustomInput';
+import CustomInput from '@/components/client/common/Inputs/CustomInput';
 import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/store';

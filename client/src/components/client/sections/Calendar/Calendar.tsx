@@ -6,8 +6,10 @@ import { MonthNumbersNormalType, NumberOfDaysInAMonthType } from '@/libs/calenda
 import { monthsShort } from '@/libs/calendar/month/month.constants';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { getDateStringQuery } from '@/utils/date.utils';
+import { useRouter } from 'next/navigation';
 
 const Calendar: React.FC = () => {
+  const router = useRouter();
   const appStore = useAppStore();
 
   const calendarData = getYearData(Number(appStore.calendar.state.year), 'Mon');
@@ -29,10 +31,8 @@ const Calendar: React.FC = () => {
       payload: { selectedYear: year, selectedMonth: month, selectedDay: day },
     });
     const dateStringQuery = getDateStringQuery(year, month, day);
-    appStore.calendar.dispatch({
-      type: 'SET_SELECTED_DATE_QUERY_STRING',
-      payload: { selectedDateQueryString: dateStringQuery },
-    });
+    appStore.calendar.dispatch({ type: 'TOGGLE_CALENDAR', payload: { toggle: false } });
+    router.push(`/fixtures/${dateStringQuery}`);
   };
 
   const handleNextMonth = () => {
@@ -100,7 +100,7 @@ const Calendar: React.FC = () => {
                   <div
                     key={key}
                     onClick={() => handleDayClick(dayData.yearNumber, dayData.monthNumber, dayData.dayNumberInMonth)}
-                    className={`${isSelected ? 'bg-slate-800 text-white' : ''} ${' text-center'}`}
+                    className={`${isSelected ? 'bg-slate-800 text-white' : ''} ${' cursor-pointer text-center hover:bg-slate-200'}`}
                   >
                     {dayData.dayNumberInMonth}
                   </div>

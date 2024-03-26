@@ -1,8 +1,8 @@
 'use client';
 import { FiMenu } from 'react-icons/fi';
 import { redirect, useRouter } from 'next/navigation';
-import Modal from '@/components/layouts/Modal/Modal';
-import NavLink from '@/components/common/Links/NavLink/NavLink';
+import Modal from '@/components/client/layouts/Modal/Modal';
+import NavLink from '@/components/client/common/Links/NavLink/NavLink';
 import { useAppStore } from '@/store/store';
 
 export default function Navigation() {

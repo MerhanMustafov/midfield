@@ -1,29 +1,18 @@
-import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
-import HomeNavigation from '@/components/sections/HomeNavigation/HomeNavigation';
-import CountryLeaguesFixtures from '@/components/sections/CountryLeaguesFixtures/CountryLeaguesFixtures';
-import { CLIENT_BASE_URL } from '@/constants/endpoints.constants';
-import { getTodayDate } from '@/utils/date.utils';
-
-const getFixtures = async () => {
-  const date = getTodayDate();
-  try {
-    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date.dateQuery}`, { cache: 'no-cache' });
-    const resData = await res.json();
-    return resData;
-  } catch (error: unknown) {
-    console.log('Error has occurred !');
-  }
-};
+import CountriesAndLeagues from '@/components/client/sections/CountriesAndLeagues';
+import HomeNavigation from '@/components/client/sections/HomeNavigation/HomeNavigation';
+import { Suspense } from 'react';
+import HomeCountryLeaguesFixturesServer from '@/components/server/HomeCountryLeaguesFixturesServer/HomeCountryLeaguesFixturesServer.server';
+import CountryLeaguesFixturesLoading from '@/components/loading/CountryLeaguesFixturesLoading/CountryLeaguesFixtures.loading';
 
 export default async function HomePage() {
-  const fixtures = await getFixtures();
-
   return (
     <div className="flex min-h-full flex-col gap-10">
       <HomeNavigation />
       <div>
         <CountriesAndLeagues />
-        <CountryLeaguesFixtures fixtures={fixtures} />
+        <Suspense fallback={<CountryLeaguesFixturesLoading />}>
+          <HomeCountryLeaguesFixturesServer />
+        </Suspense>
       </div>
     </div>
   );

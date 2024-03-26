@@ -1,13 +1,16 @@
 'use client';
 import { IoCalendarOutline } from 'react-icons/io5';
 import React from 'react';
-import SearchInput from '@/components/common/Inputs/SearchInput';
+import SearchInput from '@/components/client/common/Inputs/SearchInput';
 import { useAppStore } from '@/store/store';
-import Calendar from '@/components/sections/Calendar/Calendar';
-import Modal from '@/components/layouts/Modal/Modal';
+import Calendar from '@/components/client/sections/Calendar/Calendar';
+import Modal from '@/components/client/layouts/Modal/Modal';
 import { ActiveDayOption } from '@/store/hooks/useCalendar/useCalendar.types';
+import { getDateStringQuery } from '@/utils/date.utils';
+import { useRouter } from 'next/navigation';
 
 const HomeNavigation: React.FC = () => {
+  const router = useRouter();
   const appStore = useAppStore();
 
   const handleToggleCountriesAndLeagues = () => {
@@ -23,14 +26,25 @@ const HomeNavigation: React.FC = () => {
   };
 
   const handleDayOptionClick = (dayString: ActiveDayOption) => {
+    let dateQuery = null;
     if (dayString === 'Today') {
+      const { todayYear, todayMonth, todayDay } = appStore.calendar.state;
+      dateQuery = getDateStringQuery(todayYear, todayMonth, todayDay);
       appStore.calendar.dispatch({ type: 'SET_TODAY' });
     }
     if (dayString === 'Tomorrow') {
+      const { tomorrowYear, tomorrowMonth, tomorrowDay } = appStore.calendar.state;
+      dateQuery = getDateStringQuery(tomorrowYear, tomorrowMonth, tomorrowDay);
       appStore.calendar.dispatch({ type: 'SET_TOMORROW' });
     }
     if (dayString === 'Yesterday') {
+      const { yesterdayYear, yesterdayMonth, yesterdayDay } = appStore.calendar.state;
+      dateQuery = getDateStringQuery(yesterdayYear, yesterdayMonth, yesterdayDay);
       appStore.calendar.dispatch({ type: 'SET_YESTERDAY' });
+    }
+
+    if (dateQuery) {
+      router.push(`/fixtures/${dateQuery}`);
     }
   };
   return (
@@ -51,7 +65,11 @@ const HomeNavigation: React.FC = () => {
         </div>
       )}
       <div className="flex items-center gap-4 text-lg text-black">
-        <IoCalendarOutline onClick={handleCalendarToggle} title="calendar" className="text-2xl text-black" />
+        <IoCalendarOutline
+          onClick={handleCalendarToggle}
+          title="calendar"
+          className="cursor-pointer text-2xl text-black"
+        />
         <div title="countries and leagues" onClick={handleToggleCountriesAndLeagues} className="cursor-pointer">
           C/L
         </div>

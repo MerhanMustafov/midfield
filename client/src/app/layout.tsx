@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Navigation from '@/components/sections/Navigation';
+import Navigation from '@/components/client/sections/Navigation';
 import { AppStoreProvider } from '@/store/store';
-import CountriesAndLeagues from '@/components/sections/CountriesAndLeagues';
+import CountriesAndLeagues from '@/components/client/sections/CountriesAndLeagues';
 
 const inter = Inter({ subsets: ['latin'] });
 
