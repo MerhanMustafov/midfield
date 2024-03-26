@@ -6,7 +6,6 @@ export const GET = async (request: NextRequest, { params }: { params: { date: st
 
   try {
     const res = await fetch(BACKEND_BASE_URL + `/api/fixtures/${date}`, {
-      cache: 'force-cache',
       next: { revalidate: 60 },
     });
     const resData = await res.json();

@@ -6,7 +6,6 @@ const getFixtures = async () => {
   const date = getTodayDate();
   try {
     const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date.dateQuery}`, {
-      cache: 'force-cache',
       next: {
         revalidate: 60,
       },
