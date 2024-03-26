@@ -4,7 +4,12 @@ import { FixturesByDateServerProps } from './CountryLeaguesFixtures.server.types
 
 const getFixtures = async (date: string) => {
   try {
-    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date}`, { cache: 'no-cache' });
+    const res = await fetch(CLIENT_BASE_URL + `/api/get/fixtures/${date}`, {
+      cache: 'force-cache',
+      next: {
+        revalidate: 60,
+      },
+    });
     const resData = await res.json();
     return resData;
   } catch (error: unknown) {
